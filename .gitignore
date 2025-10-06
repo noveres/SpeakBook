@@ -1,0 +1,91 @@
+# =====================================
+# Angular / Ionic (前端 + 行動端)
+# =====================================
+# Node 依賴
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# 編譯輸出
+dist/
+www/
+build/
+tmp/
+.cache/
+.angular/
+.vite/
+coverage/
+
+# 環境設定
+.env
+.env.*
+!.env.example
+
+# Capacitor / Cordova
+ios/App/App.xcworkspace/
+ios/App/Pods/
+ios/App/Podfile.lock
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# iOS 與 Android 編譯暫存
+*.apk
+*.aab
+*.ipa
+ios/build/
+ios/DerivedData/
+
+# =====================================
+#  Spring Boot (Java 後端)
+# =====================================
+# Maven / Gradle 輸出
+target/
+build/
+out/
+
+# 設定與暫存
+*.log
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+
+# IDE 產生的設定檔
+.idea/
+*.ipr
+*.iws
+*.bak
+*.tmp
+
+# 作業系統常見檔案
+.DS_Store
+Thumbs.db
+
+# Java 環境檔案（可選）
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+# =====================================
+# 共用 / 系統層級
+# =====================================
+.vscode/
+.editorconfig
+.eslintcache
+*.swp
+*.swo
+*.tmp
+*.log
+*.bak
+
+# =====================================
+# 測試相關
+# =====================================
+coverage/
+test-output/
+reports/
