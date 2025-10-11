@@ -1,0 +1,81 @@
+<div class="home-container">
+  <!-- 輪播圖區域 -->
+  <div class="carousel-container">
+    <div class="carousel-wrapper">
+      <div class="carousel-slides" [style.transform]="'translateX(-' + (currentSlide * 33.333) + '%)'">
+        <div class="slide" *ngFor="let slide of slides; let i = index">
+          <div class="slide-background" [style.background-image]="'url(' + slide.image + ')'">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+              <h1 class="slide-title">{{ slide.title | translate }}</h1>
+              <h2 class="slide-subtitle">{{ slide.subtitle | translate }}</h2>
+              <p class="slide-description">{{ slide.description | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 導航按鈕 -->
+      <button class="carousel-btn prev-btn" (click)="prevSlide()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="carousel-btn next-btn" (click)="nextSlide()">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      
+      <!-- 指示器 -->
+      <div class="carousel-indicators">
+        <button 
+          *ngFor="let slide of slides; let i = index" 
+          class="indicator" 
+          [class.active]="i === currentSlide"
+          (click)="goToSlide(i)">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 歡迎文字區域 -->
+  <div class="welcome-section">
+    <div class="welcome-content">
+      <h2 class="welcome-title">{{ 'HOME.WELCOME.TITLE' | translate }}</h2>
+      <p class="welcome-description">
+        {{ 'HOME.WELCOME.DESCRIPTION' | translate }}
+      </p>
+      
+      <div class="feature-cards">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>{{ 'HOME.FEATURES.EDUCATION.TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURES.EDUCATION.DESCRIPTION' | translate }}</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <h3>{{ 'HOME.FEATURES.GREEN_CAMPUS.TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURES.GREEN_CAMPUS.DESCRIPTION' | translate }}</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>{{ 'HOME.FEATURES.READING.TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURES.READING.DESCRIPTION' | translate }}</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>{{ 'HOME.FEATURES.INTERNATIONAL.TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURES.INTERNATIONAL.DESCRIPTION' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

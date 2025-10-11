@@ -1,0 +1,117 @@
+<div class="container">
+    <div class="form-section">
+        <!-- Language Selector -->
+        <div class="language-selector-wrapper">
+            <app-language-selector></app-language-selector>
+        </div>
+
+        <!-- Desktop Logo -->
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" style="width: 40px; height: 40px;">
+            <span>KAS System</span>
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <div class="mobile-image"></div>
+            <div class="welcome-text">
+                <div class="mobile-logo-section">
+
+                    <div class="mobile-logo-content">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="mobile-logo-icon">
+                        <h1 class="mobile-company-name">KAS System</h1>
+                    </div>
+                    <div class="mobile-language-selector">
+                        <app-language-selector></app-language-selector>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error message -->
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onPasswordLogin()">
+            <!-- Desktop Only Fields -->
+            <div class="desktop-fields">
+                <div class="form-group">
+                    <label for="company-id">{{ 'LOGIN.COMPANY_ID' | translate }}</label>
+                    <input type="text" id="company-id" [placeholder]="'LOGIN.COMPANY_ID_PLACEHOLDER' | translate">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">{{ 'LOGIN.USERNAME' | translate }}</label>
+                <input type="text" id="username" formControlName="username" [placeholder]="'LOGIN.USERNAME_PLACEHOLDER' | translate" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
+                <div class="password-input-wrapper">
+                    <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+                        [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate" />
+                    <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
+                        [attr.aria-label]="(showPassword ? 'LOGIN.HIDE_PASSWORD' : 'LOGIN.SHOW_PASSWORD') | translate"
+                        [attr.title]="(showPassword ? 'LOGIN.HIDE_PASSWORD' : 'LOGIN.SHOW_PASSWORD') | translate" aria-pressed="false">
+                        <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <line x1="3" y1="3" x2="21" y2="21"></line>
+                        </svg>
+                        <span class="visually-hidden">{{ (showPassword ? 'LOGIN.HIDE_PASSWORD' : 'LOGIN.SHOW_PASSWORD') | translate }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Desktop Only Fields -->
+            <div class="desktop-fields">
+                <div class="form-group">
+                    <label for="department">{{ 'LOGIN.DEPARTMENT' | translate }}</label>
+                    <select id="department">
+                        <option value="">{{ 'LOGIN.SELECT_DEPARTMENT' | translate }}</option>
+                        <option value="taipei">{{ 'LOGIN.TAIPEI' | translate }}</option>
+                        <option value="taichung">{{ 'LOGIN.TAICHUNG' | translate }}</option>
+                        <option value="tainan">{{ 'LOGIN.TAINAN' | translate }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Desktop Checkbox Group -->
+            <div class="checkbox-group">
+                <div class="checkbox-wrapper" style="display: none;">
+                    <input type="checkbox" id="remember" [checked]="keepLoggedIn" (change)="onKeepLoggedInChange($event)">
+                    <label for="remember">{{ 'LOGIN.REMEMBER_ME' | translate }}</label>
+                </div>
+                <a href="javascript:;" class="forgot-password"style="display: none;" >{{ 'LOGIN.FORGOT_PASSWORD' | translate }}</a>
+            </div>
+
+            <!-- Mobile Forgot Password -->
+            <a href="javascript:;" class="forgot-password mobile-forgot-password">{{ 'LOGIN.FORGOT_PASSWORD' | translate }}</a>
+
+            <button type="submit" class="sign-in-btn" [disabled]="loginForm.invalid || isLoading">
+                {{ (isLoading ? 'LOGIN.SIGNING_IN' : 'LOGIN.SIGN_IN') | translate }}
+            </button>
+
+            <div class="divider">
+                <span>{{ 'LOGIN.OR' | translate }}</span>
+            </div>
+
+
+            <div class="signup-link">
+                {{ 'LOGIN.NO_ACCOUNT' | translate }} <a href="#">{{ 'LOGIN.SIGN_UP' | translate }}</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="image-section"></div>
+</div>

@@ -1,0 +1,585 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+:host {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #F3F9FA;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Mobile header styles */
+.mobile-header {
+    display: none;
+}
+
+.mobile-image {
+    width: 100%;
+    height: 200px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg') center/cover;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.mobile-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.2), rgba(0,0,0,0.1));
+    border-radius: 15px;
+}
+
+.welcome-text {
+    display: none;
+}
+
+.mobile-logo-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.mobile-language-selector {
+    flex-shrink: 0;
+}
+
+.mobile-logo-content {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.mobile-logo-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 8px;
+}
+
+.mobile-company-name {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .language-selector-wrapper {
+        display: none; // 隱藏原本的語言選擇器
+    }
+    
+    .mobile-language-selector {
+        display: block;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-language-selector {
+        display: none; // 桌面端隱藏移動端的語言選擇器
+    }
+}
+
+.welcome-subtitle {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.desktop-fields {
+    display: block;
+}
+
+.mobile-forgot-password {
+    display: none;
+    margin: 15px 0 30px 0;
+    color: #4285f4;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.mobile-forgot-password:hover {
+    text-decoration: underline;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 15px rgba(0, 0, 0, 0.1),
+        0 4px 6px rgba(0, 0, 0, 0.08),
+        0 2px 4px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    min-height: 600px;
+}
+
+.form-section {
+    flex: 1;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+/* Language Selector Wrapper */
+.language-selector-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.image-section {
+    flex: 1;
+    /* 使用梵谷的星夜作為背景圖 */
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg') center/cover;
+    border-radius: 20px;
+    margin: 20px;
+    position: relative;
+}
+
+.image-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+    border-radius: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    // justify-content: center;
+    margin-bottom: 40px;
+    gap: 12px;
+
+    /* Logo圖片 */
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    /* 公司名稱 */
+    span {
+        font-size: 48px;
+        font-weight: 700;
+        color: #333;
+    }
+}
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+// 新增：自定義 select 下拉箭頭樣式
+.form-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center; // 調整箭頭位置，從右邊 15px 改為 12px
+    background-size: 12px;
+    padding-right: 40px; // 確保文字不會與箭頭重疊
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4285f4;
+    background-color: white;
+}
+
+// 針對 Firefox 的特殊處理
+.form-group select::-ms-expand {
+    display: none;
+}
+
+.form-group input::placeholder {
+    color: #aaa;
+}
+
+/* 密碼輸入組 */
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+
+    input {
+        padding-right: 50px;
+    }
+}
+
+/* 密碼切換按鈕 */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.password-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.password-toggle:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.password-toggle svg {
+    transition: all 0.2s ease;
+}
+
+/* 錯誤消息 */
+.error-message {
+    background-color: #ffebee;
+    color: #d32f2f;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+.forgot-password {
+    color: #4285f4;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.sign-in-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.sign-in-btn:hover {
+    background-color: #34495e;
+}
+
+.sign-in-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    color: #666;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e1e5e9;
+    z-index: 1;
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.google-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Google button customization */
+:host asl-google-signin-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+:host  asl-google-signin-button .abcRioButton {
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid #e1e5e9 !important;
+    background: white !important;
+}
+
+:host  asl-google-signin-button .abcRioButton:hover {
+    border-color: #4285f4 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 典雅風格的自訂 Google 登入按鈕 */
+.custom-google-signin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    border: 1px solid #e8eaed;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Inter', 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #2d3748;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    padding: 0 28px;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.custom-google-signin-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+}
+
+.custom-google-signin-btn:hover {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+    border-color: #d2d6da;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.custom-google-signin-btn:hover::before {
+    left: 100%;
+}
+
+.custom-google-signin-btn:focus {
+    outline: none;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+    border-color: #4285f4;
+    box-shadow: 0 4px 16px rgba(66, 133, 244, 0.15), 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+.custom-google-signin-btn:active {
+    background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
+.custom-google-signin-btn .google-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
+}
+
+.custom-google-signin-btn:hover .google-icon {
+    transform: scale(1.05);
+}
+
+.custom-google-signin-btn span {
+    color: #2d3748;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: color 0.3s ease;
+}
+
+.custom-google-signin-btn:hover span {
+    color: #1a202c;
+}
+
+.custom-google-signin-btn:disabled {
+    background: linear-gradient(135deg, #f7f8f9 0%, #e9ecef 100%);
+    border-color: #e9ecef;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.custom-google-signin-btn:disabled .google-icon {
+    opacity: 0.4;
+    filter: grayscale(100%) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+.custom-google-signin-btn:disabled span {
+    color: #9ca3af;
+    text-shadow: none;
+}
+
+.signup-link {
+    text-align: center;
+    color: #666;
+}
+
+.signup-link a {
+    color: #4285f4;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* 視覺隱藏元素 - 用於無障礙功能 */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    :host {
+        padding: 0;
+        background-color: white;
+    }
+
+    .container {
+        flex-direction: column;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+        max-width: none;
+    }
+
+    .image-section {
+        display: none;
+    }
+
+    .form-section {
+        padding: 20px;
+        justify-content: flex-start;
+    }
+
+    .language-selector-wrapper {
+        top: 15px;
+        right: 15px;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .mobile-header {
+        display: block;
+    }
+
+    .welcome-text {
+        display: block;
+    }
+
+
+
+    .checkbox-group {
+        display: none;
+    }
+
+    .mobile-forgot-password {
+        display: block;
+    }
+
+    .google-btn-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .divider {
+        margin: 25px 0 20px 0;
+    }
+}

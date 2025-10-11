@@ -1,1 +1,293 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+/* ==========================================================================
+   KAS3 全域顏色系統
+   ========================================================================== */
+
+/* ---------- 主題切換機制 ---------- */
+/* 使用 data-theme 屬性來切換主題 */
+/* 默認深色主題 */
+:root {
+  /* ---------- 尺寸變數 ---------- */
+  --sidebar-width: 16rem; // 256px
+  --sidebar-width-icon: 3rem; // 48px
+  --sidebar-width-mobile: 18rem; // 288px
+
+  /* ---------- 核心顏色 (深色) ---------- */
+  --color-primary: 217 100% 65%; // #4a7dff - 主要品牌色
+  --color-secondary: 240 34% 20%; // #212143 - 次要品牌色
+
+  /* ---------- 中性顏色 (深色) ---------- */
+  --color-background: 210 20% 98%; // #f8f9fa - 主要背景色
+  --color-card: 0 0% 100%; // #ffffff - 卡片背景
+  --color-border: 220 13% 91%; // #e2e8f0 - 邊框色
+  --color-shadow: 0 0% 0% / 0.1; // rgba(0, 0, 0, 0.1) - 陰影
+
+  /* ---------- 文字顏色 (深色) ---------- */
+  --color-text: 0 0% 20%; // #333333 - 主要文字
+  --color-text-secondary: 0 0% 53%; // #888888 - 次要文字
+  --color-text-light: 0 0% 100%; // #ffffff - 亮色文字
+
+  /* ---------- 側邊欄顏色 (深色) ---------- */
+  --sidebar-bg: #111827; // 側邊欄背景
+  --sidebar-hover: #1f2937; // 側邊欄懸停狀態
+  --sidebar-text: #e5e7eb; // 側邊欄文字
+  --sidebar-text-muted: #9ca3af; // 側邊欄次要文字
+  --sidebar-border: rgba(255, 255, 255, 0.1); // 側邊欄邊框
+}
+
+/* ---------- 淺色主題 ---------- */
+/* 當 HTML 元素有 data-theme="light" 屬性時應用 */
+[data-theme="light"] {
+  /* ---------- 核心顏色 (淺色) ---------- */
+  --color-primary: 217 100% 65%; // #4a7dff - 保持品牌色一致
+  --color-secondary: 240 34% 20%; // #212143 - 保持次要品牌色一致
+
+  /* ---------- 中性顏色 (淺色) ---------- */
+  --color-background: 0 0% 97%; // #f8f9fa - 淺灰背景色
+  --color-card: 0 0% 100%; // #ffffff - 白色卡片背景
+  --color-border: 0 0% 94%; // #f0f0f0 - 淺灰邊框色
+  --color-shadow: 0 0% 0% / 0.05; // rgba(0, 0, 0, 0.05) - 淺陰影
+
+  /* ---------- 文字顏色 (淺色) ---------- */
+  --color-text: 0 0% 20%; // #333333 - 深灰主要文字
+  --color-text-secondary: 0 0% 53%; // #888888 - 中灰次要文字
+  --color-text-light: 0 0% 100%; // #ffffff - 白色文字
+
+  /* ---------- 側邊欄顏色 (淺色) ---------- */
+  --sidebar-bg: #ffffff; // 白色側邊欄背景
+  --sidebar-hover: #f0f7ff; // 淺灰懸停狀態
+  --sidebar-text: #4a7dff; // 深藍側邊欄文字
+  --sidebar-text-black: #333; // 深色側邊文字
+  --sidebar-text-muted: #888888; // 中灰側邊欄次要文字
+  --sidebar-border: rgba(0, 0, 0, 0.05); // 淺灰透明邊框
+}
+
+// /* ---------- 深色主題 ---------- */
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     /* ---------- 核心顏色 (深色) ---------- */
+//     --color-primary: 217 100% 70%; // #6691ff - 主要品牌色調亮
+//     --color-secondary: 240 34% 30%; // #2d2d5e - 次要品牌色調亮
+
+//     /* ---------- 中性顏色 (深色) ---------- */
+//     --color-background: 222 47% 11%; // #121c2e - 主要背景色
+//     --color-card: 223 47% 14%; // #172338 - 卡片背景
+//     --color-border: 215 25% 27%; // #334155 - 邊框色
+//     --color-shadow: 0 0% 0% / 0.2; // rgba(0, 0, 0, 0.2) - 陰影
+
+//     /* ---------- 文字顏色 (深色) ---------- */
+//     --color-text: 0 0% 90%; // #e6e6e6 - 主要文字
+//     --color-text-secondary: 0 0% 70%; // #b3b3b3 - 次要文字
+
+//     /* ---------- 側邊欄顏色不變 ---------- */
+//   }
+// }
+
+/* ---------- 舊版顏色映射 (向後兼容) ---------- */
+$colors: (
+  // 主題色
+  primary: hsl(var(--color-primary)),
+  secondary: hsl(var(--color-secondary)),
+
+  // 背景色
+  bg-primary: hsl(var(--color-background)),
+  bg-secondary: hsl(var(--color-card)),
+  bg-sidebar: var(--sidebar-bg),
+  bg-sidebar-hover: var(--sidebar-hover),
+  bg-sidebar-avatar: #374151,
+
+  // 文字色
+  text-primary: hsl(var(--color-text)),
+  text-secondary: hsl(var(--color-text-secondary)),
+  text-light: hsl(var(--color-text-light)),
+  text-sidebar: var(--sidebar-text),
+  text-sidebar-black: var(--sidebar-text-black),
+  text-sidebar-secondary: var(--sidebar-text-muted),
+
+  // 邊框和陰影
+  border-sidebar: var(--sidebar-border),
+  shadow-header: hsl(var(--color-shadow)),
+  shadow-sidebar: hsl(var(--color-shadow)),
+  shadow-content: hsl(var(--color-shadow)),
+
+  // 互動色
+  butt-hove-color: rgba(0, 0, 0, 0.05)
+);
+
+/* ---------- 顏色函數 ---------- */
+@function color($key) {
+  @return map-get($colors, $key);
+}
+
+/* ---------- Angular Material 主題設定 ---------- */
+// 包含核心主題樣式
+@include mat.core();
+
+html {
+  @include mat.theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+/* ---------- 全域樣式 ---------- */
+/* 防止瀏覽器深色模式影響應用 */
+@media (prefers-color-scheme: dark) {
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ---------- 輔助工具類 ---------- */
+.text-primary {
+  color: hsl(var(--color-primary));
+}
+
+.text-secondary {
+  color: hsl(var(--color-text-secondary));
+}
+
+.bg-primary {
+  background-color: hsl(var(--color-primary));
+}
+
+.bg-light {
+  background-color: hsl(var(--color-background));
+}
+
+.bg-white {
+  background-color: hsl(var(--color-card));
+}
+
+
+/*
+## 尺寸規格
+
+側邊欄實現中，主要尺寸規格如下：
+
+### 寬度
+
+- 展開狀態寬度：`--sidebar-width` 變數，預設值為 `16rem` (256px)
+- 折疊狀態寬度：`--sidebar-width-icon` 變數，預設值為 `3rem` (48px)
+- 移動裝置寬度：`--sidebar-width-mobile` 變數，預設值為 `18rem` (288px)
+
+
+### 內部間距
+
+- 側邊欄頭部和底部：`p-2` (padding: 0.5rem 或 8px)
+- 側邊欄內容區域：`p-2` (padding: 0.5rem 或 8px)
+- 側邊欄組：`p-2` (padding: 0.5rem 或 8px)
+- 選單項目：`p-2` (padding: 0.5rem 或 8px
+## 側邊欄字體大小詳解
+
+在 shadcn/ui 側邊欄實現中，使用了不同的字體大小來創建視覺層次結構。以下是各元素的字體大小詳情：
+
+### 主要元素字體大小
+
+- **選單按鈕 (SidebarMenuButton)**：`text-sm` (0.875rem / 14px)
+
+- 小尺寸變體：`text-xs` (0.75rem / 12px)
+- 大尺寸變體：`text-sm` (0.875rem / 14px)
+
+
+
+- **選單子項目 (SidebarMenuSubButton)**：
+
+- 中等尺寸：`text-sm` (0.875rem / 14px)
+- 小尺寸：`text-xs` (0.75rem / 12px)
+
+
+
+- **分組標籤 (SidebarGroupLabel)**：`text-xs font-medium` (0.75rem / 12px，中等粗細)
+- **選單徽章 (SidebarMenuBadge)**：`text-xs font-medium` (0.75rem / 12px，中等粗細)
+
+
+### 其他元素字體大小
+
+- **側邊欄菜單 (SidebarMenu)**：繼承 `text-sm` (0.875rem / 14px)
+- **側邊欄輸入框 (SidebarInput)**：繼承基本字體大小，通常為 `text-sm`
+- **側邊欄骨架屏 (SidebarMenuSkeleton)**：文字部分使用 `h-4` (1rem / 16px) 高度
+
+
+### 字體粗細
+
+- **一般文字**：正常粗細 (400)
+- **分組標籤**：`font-medium` (500)
+- **選單徽章**：`font-medium` (500)
+- **活動項目**：`data-[active=true]:font-medium` (500，當項目處於活動狀態)
+
+
+### 字體行高
+
+側邊欄中的文字元素通常使用默認行高，但某些元素有特定設置：
+
+- **選單按鈕**：通過高度 (`h-8`, `h-7`, `h-12`) 間接控制行高
+- **選單子按鈕**：通過高度 (`h-7`) 間接控制行高
+
+
+### 文字截斷處理
+
+- 選單按鈕中的文字使用 `[&>span:last-child]:truncate` 確保過長的文字會被截斷並顯示省略號
+- 子選單按鈕也使用 `[&>span:last-child]:truncate` 進行類似處理
+
+
+### 響應式字體大小
+
+側邊欄的字體大小在不同設備上保持一致，沒有特別的響應式字體大小調整。確保在折疊狀態和展開狀態下的視覺一致性。
+
+*/
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* ---------- Angular Material SnackBar 位置修正 ---------- */
+/* 修正 snackBar 出現在左上角然後閃到下方的問題 */
+.mat-mdc-snack-bar-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 1000 !important;
+}
+
+/* 確保 snackBar 動畫正常 */
+.mat-mdc-snack-bar-container.mat-mdc-snack-bar-center {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+}
+
+/* 統一的 Snackbar 視覺樣式（成功/錯誤） */
+.mat-mdc-snack-bar-container.success-snackbar {
+  background-color: #2e7d32 !important; /* 綠色：成功 */
+}
+.mat-mdc-snack-bar-container.error-snackbar {
+  background-color: #c62828 !important; /* 紅色：錯誤/部分失敗 */
+}
+
+/* 內文統一樣式（多行訊息、字色、字重） */
+.mat-mdc-snack-bar-container.success-snackbar .mdc-snackbar__label,
+.mat-mdc-snack-bar-container.error-snackbar .mdc-snackbar__label {
+  color: #fff !important;
+  white-space: pre-line !important; /* 允許 \n 斷行 */
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
