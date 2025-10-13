@@ -101,13 +101,19 @@ export class SidebarNAVmenuDropDownComponent implements OnInit, OnDestroy {
       if (name && name.trim() !== '') {
         this.userName = name;
       } else {
-        this.userName = this.translate.instant('USER.DEFAULT_USER');
+        // 使用 translate.get() 確保翻譯服務完全初始化
+        this.translate.get('USER.DEFAULT_USER').subscribe(translation => {
+          this.userName = translation;
+        });
       }
     });
 
     // 初始化預設顯示（避免屬性初始化階段 translate 尚未注入）
     if (!this.userName) {
-      this.userName = this.translate.instant('USER.DEFAULT_USER');
+      // 使用 translate.get() 確保翻譯服務完全初始化
+      this.translate.get('USER.DEFAULT_USER').subscribe(translation => {
+        this.userName = translation;
+      });
     }
     if (!this.userRole) {
       // 若無角色資料，預設顯示底線

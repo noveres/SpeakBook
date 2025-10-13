@@ -32,10 +32,9 @@
   --color-text-light: 0 0% 100%; // #ffffff - 亮色文字
 
   /* ---------- 側邊欄顏色 (深色) ---------- */
-  --sidebar-bg: #111827; // 側邊欄背景
-  --sidebar-hover: #1f2937; // 側邊欄懸停狀態
-  --sidebar-text: #e5e7eb; // 側邊欄文字
-  --sidebar-text-muted: #9ca3af; // 側邊欄次要文字
+  --sidebar-bg: #C9CDB9; // 側邊欄背景
+  --sidebar-hover: #5E716A; // 側邊欄懸停狀態
+  --sidebar-text: #5E716A; // 側邊欄文字
   --sidebar-border: rgba(255, 255, 255, 0.1); // 側邊欄邊框
 }
 
@@ -46,24 +45,31 @@
   --color-primary: 217 100% 65%; // #4a7dff - 保持品牌色一致
   --color-secondary: 240 34% 20%; // #212143 - 保持次要品牌色一致
 
-  /* ---------- 中性顏色 (淺色) ---------- */
-  --color-background: 0 0% 97%; // #f8f9fa - 淺灰背景色
+  /* ---------- 中性顏色 (淺色) - 莫蘭迪配色 ---------- */
+  --color-background: 30 15% 95%; // #F5F3F0 - 莫蘭迪米白背景
   --color-card: 0 0% 100%; // #ffffff - 白色卡片背景
   --color-border: 0 0% 94%; // #f0f0f0 - 淺灰邊框色
   --color-shadow: 0 0% 0% / 0.05; // rgba(0, 0, 0, 0.05) - 淺陰影
 
-  /* ---------- 文字顏色 (淺色) ---------- */
+  /* ---------- 文字顏色 (淺色) - 莫蘭迪配色 ---------- */
   --color-text: 0 0% 20%; // #333333 - 深灰主要文字
   --color-text-secondary: 0 0% 53%; // #888888 - 中灰次要文字
   --color-text-light: 0 0% 100%; // #ffffff - 白色文字
 
-  /* ---------- 側邊欄顏色 (淺色) ---------- */
-  --sidebar-bg: #ffffff; // 白色側邊欄背景
-  --sidebar-hover: #f0f7ff; // 淺灰懸停狀態
-  --sidebar-text: #4a7dff; // 深藍側邊欄文字
-  --sidebar-text-black: #333; // 深色側邊文字
-  --sidebar-text-muted: #888888; // 中灰側邊欄次要文字
-  --sidebar-border: rgba(0, 0, 0, 0.05); // 淺灰透明邊框
+  /* ---------- Header 顏色 (淺色) - 莫蘭迪配色 ---------- */
+  --header-bg: #D6DBCF; // 灰綠 - header 背景色
+  --header-text: #4B5750; // 深灰綠 - header 文字色
+  --header-hover: #C8D0C0; // 淺灰綠 - header hover 色
+
+  /* ---------- 側邊欄顏色 (淺色) - 莫蘭迪配色 ---------- */
+  --sidebar-bg: #E4E6D9; // 莫蘭迪淺綠 - 主背景色
+  --sidebar-hover: #D6DBCF; // 灰綠 hover - hover 背景色
+  --sidebar-text: #4B5750; // 深灰綠 - 主文字色
+  --sidebar-text-black: #4B5750; // 深灰綠 - 深色側邊文字
+  --sidebar-text-muted: #7C8C80; // 淺灰綠 - 次文字色
+  --sidebar-border: #D5D8CF; // 淺灰線 - 邊框/分隔線
+  --sidebar-active-bg: #5E716A; // 莫蘭迪墨綠 - 強調色（按鈕、選中）
+  --sidebar-secondary-bg: #C8D0C0; // 灰綠 - 次背景/區塊底色
 }
 
 // /* ---------- 深色主題 ---------- */
@@ -99,6 +105,13 @@ $colors: (
   bg-sidebar: var(--sidebar-bg),
   bg-sidebar-hover: var(--sidebar-hover),
   bg-sidebar-avatar: #374151,
+  bg-sidebar-active: var(--sidebar-active-bg),
+  bg-sidebar-secondary: var(--sidebar-secondary-bg),
+
+  // Header 色
+  bg-header: var(--header-bg),
+  text-header: var(--header-text),
+  hover-header: var(--header-hover),
 
   // 文字色
   text-primary: hsl(var(--color-text)),

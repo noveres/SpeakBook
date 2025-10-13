@@ -18,7 +18,7 @@
       }
 
       <div class="logo-text">
-        <span>{{ 'SIDEBAR.SYSTEM_NAME' | translate }}</span>
+        <span>{{ 'COMMON.SYSTEM_NAME' | translate }}</span>
       </div>
     </div>
     <div class="header-right">
@@ -35,7 +35,7 @@
       }
 
       <!-- <app-refresh-token-test></app-refresh-token-test> -->
-      <app-language-selector></app-language-selector>
+      <!-- <app-language-selector></app-language-selector> -->
       <app-user-menu-dropdown
         [userName]="userName"
         [userRole]="userRole"
@@ -116,7 +116,7 @@
               </svg>
             </a>
             <ul class="submenu" [class.active]="isSubmenuExpanded('assetManagement')">
-             <li *appHasPermission="['/management/asset:read','/management/asset:create']; appHasPermissionMode: 'all'">
+             <li>
                 <a routerLink="/asset-management/add" routerLinkActive="active">
                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     viewBox="0 0 16 16">
@@ -129,7 +129,7 @@
                 </a>
               </li>
             </ul>
-          </li>
+          <!-- </li>
             <a routerLink="/profile" routerLinkActive="active">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path
@@ -137,7 +137,7 @@
               </svg>
               <span>{{ 'SIDEBAR.SETTING' | translate }}</span>
             </a>
-          <li>
+          <li> -->
             <a href="javascript:void(0)" (click)="logout()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -145,7 +145,7 @@
                 <path fill-rule="evenodd"
                   d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
               </svg>
-              <span>{{ 'SIDEBAR.LOGOUT' | translate }}</span>
+              <span>{{ 'COMMON.LOGOUT' | translate }}</span>
             </a>
           </li>
         </ul>
@@ -158,9 +158,6 @@
 
     <!-- 主要內容 -->
     <div class="main-content">
-      <div class="page-header">
-
-      </div>
       <div class="content-wrapper">
         <router-outlet></router-outlet>
       </div>

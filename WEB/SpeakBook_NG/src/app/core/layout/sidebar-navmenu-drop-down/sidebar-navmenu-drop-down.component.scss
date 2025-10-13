@@ -1,4 +1,4 @@
-@use '../../../../styles' as *;
+// @use '../../../../styles' as *;
 
 :host {
   display: block;
@@ -12,37 +12,28 @@
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background-color: color(bg-primary);
+  background-color: #E6E0CF;
 }
 
 // 頂部導航欄
 .top-header {
   height: 64px;
-  background-color: color(bg-secondary);
-  color: color(secondary);
+  background-color: #5E716A;
+  color: #E6E0CF;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 5.5px 32px;
-  box-shadow: 0 2px 4px color(shadow-header);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   z-index: 5;
   position: relative;
 
   .logo-text {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 600;
       display: flex;
       align-items: center;
 
-      &:before {
-          content: '';
-          display: inline-block;
-          width: 10px;
-          height: 10px;
-          background-color: color(primary);
-          border-radius: 50%;
-          margin-right: 10px;
-      }
   }
 
   .pc-menutoggle {
@@ -55,8 +46,7 @@
     transition: color 0.3s ease, background-color 0.3s ease;
 
     &:hover {
-      background-color:color(butt-hove-color);
-
+      background-color: #C8D0C0;
     }
 
     &:active {
@@ -84,7 +74,7 @@
           padding: 5px;
 
           &:hover {
-              color: color(primary);
+              color: #4B5750;
           }
 
           @media (max-width: 768px) {
@@ -92,25 +82,8 @@
           }
       }
 
-      .language-selector {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 14px;
-          cursor: pointer;
 
-          svg {
-              width: 16px;
-              height: 16px;
-          }
-      }
-
-      .user-menu-container {
-          position: relative;
-          display: flex;
-          align-items: center;
-      }
-
+  
       .user-avatar {
           width: 36px;
           height: 36px;
@@ -137,8 +110,8 @@
               width: 10px;
               height: 10px;
               border-radius: 50%;
-              background-color: color(primary);
-              border: 2px solid color(bg-secondary);
+              background-color: #5E716A;
+              border: 2px solid #E6E0CF;
           }
       }
   }
@@ -161,7 +134,7 @@
   .user-menu-header {
     display: flex;
     padding: 16px;
-    background-color: color(bg-secondary);
+    background-color: #D6DBCF;
 
     .user-menu-avatar {
       width: 50px;
@@ -185,12 +158,12 @@
       .user-menu-name {
         font-weight: 600;
         font-size: 16px;
-        color: color(text-sidebar-black);
+        color: #4B5750;
       }
 
       .user-menu-role {
         font-size: 14px;
-        color: color(text-sidebar-secondary);
+        color: #7C8C80;
         margin-top: 4px;
       }
     }
@@ -202,21 +175,21 @@
 
     .mat-icon {
       margin-right: 8px;
-      color: color(primary);
+      color: #5E716A;
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: #D6DBCF;
     }
   }
 }
 
 // 側邊欄
 .sidebar {
-  width: var(--sidebar-width, 16rem); /* 256px */
+  width: 300px;
   height: 100%;
-  background-color: color(bg-sidebar);
-  color: color(text-sidebar);
+  background-color: #D6D9C3;
+  color: #5E716A;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -228,10 +201,10 @@
     padding: 14px; /* 調整內邊距為適中大小 */
     display: flex;
     align-items: center;
-    border-bottom: 1px solid color(border-sidebar);
+    border-bottom: 1px solid #D5D8CF;
     position: sticky;
     top: 0;
-    background-color: color(bg-sidebar);
+    background-color: #D6D9C3;
     z-index: 10;
 
     .avatar-container {
@@ -242,7 +215,7 @@
         height: 40px;
         border-radius: 50%;
         overflow: hidden;
-        background-color: color(bg-sidebar-avatar);
+        background-color: #374151;
 
         img {
           width: 100%;
@@ -260,13 +233,13 @@
 
       .user-name {
         font-weight: 600;
-        font-size: 14px;
-        color: color(text-sidebar-black);
+        font-size: 1.1rem;
+        color: #4B5750;
       }
 
       .user-role {
-        font-size: 12px;
-        color: color(text-sidebar-secondary);
+        font-size: 0.8rem;
+        color: #7C8C80;
       }
     }
 
@@ -276,10 +249,10 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: color(text-sidebar-secondary);
+      color: #7C8C80;
 
       &:hover {
-        color: color(text-sidebar);
+        color: #4B5750;
       }
     }
   }
@@ -318,7 +291,7 @@
 
             &.active {
               background-color: transparent;
-              color: color(text-sidebar-secondary);
+              color: #7C8C80;
               font-weight: normal;
               box-shadow: none;
             }
@@ -342,10 +315,22 @@
 
             li a {
               padding: 0.425rem 0.5rem; /* 調整上下內邊距 */
-              font-size: 0.75rem; /* 調整字體大小 */
+              font-size: 0.9rem; /* 調整字體大小 */
               font-weight: 500; /* 加粗字體 */
               border-radius: 0.3rem; /* 調整圓角 */
               height: 1.625rem; /* 調整子選單按鈕高度 */
+              background-color: #D6D9C3; /* 次背景色 */
+              
+              &:hover {
+                background-color: #D6DBCF;
+                color: #4B5750;
+              }
+
+              &.active {
+                background-color: #5E716A;
+                color: #E6E0CF; /* 白色文字確保在深色背景上可讀 */
+                font-weight: 600;
+              }
             }
           }
 
@@ -363,23 +348,23 @@
           display: flex;
           align-items: center;
           padding: 0.425rem 0.5rem; /* 調整上下內邊距 */
-          color: color(text-sidebar-secondary); /* 默認淺灰色 */
+          color: #7C8C80; /* 默認淺灰色 */
           text-decoration: none;
           transition: all 0.2s ease;
           position: relative;
           border-radius: 0.3rem; /* 調整圓角 */
           height: 1.875rem; /* 調整按鈕高度 */
-          font-size: 0.825rem; /* 調整字體大小 */
+          font-size: 0.9rem; /* 調整字體大小 */
           font-weight: 500; /* 加粗字體 */
 
           &:hover {
-            background-color: color(bg-sidebar-hover);
-            color: color(text-sidebar);
+            background-color: #D6DBCF;
+            color: #4B5750;
           }
 
           &.active {
-            background-color: color(bg-sidebar-hover);
-            color: color(text-sidebar);
+            background-color: #5E716A;
+            color: #E6E0CF; /* 白色文字確保在深色背景上可讀 */
             font-weight: 600; /* 增加活動項目的字體粗度 */
           }
        }
@@ -418,7 +403,7 @@
     width: var(--sidebar-width-mobile, 18rem); /* 288px */
     transform: translateX(-100%);
     z-index: 1000;
-    box-shadow: 2px 0 10px color(shadow-sidebar);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 0.5rem; /* rounded-lg */
     &.active {
@@ -428,10 +413,11 @@
 }
 
 .main-content {
-  background-color: #f3f4f6; // 淺灰色背景
+  background-color: #F5F3F0; // 莫蘭迪米白背景
 
   .content-wrapper {
-    background-color: white;
+    min-height: 100vh;
+    background-color: #E6E0CF;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
@@ -441,28 +427,28 @@
 // 主要內容
 .main-content {
   flex: 1;
-  padding: 20px;
   overflow-y: auto;
   height: 100%;
-  background-color: color(bg-primary);
+  background-color: #F5F3F0;
 
   // 頁面標題
   .page-header {
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
 
       h1 {
           font-size: 24px;
           font-weight: 600;
-          color: color(text-primary);
+          color: #333333;
           margin: 0;
       }
   }
 
   // 內容區域
   .content-wrapper {
-      background-color: color(bg-secondary);
+      min-height: 100vh;
+      background-color: #E6E0CF;
       border-radius: 8px;
-      box-shadow: 0 0 10px color(shadow-content);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       padding: 20px;
   }
 }
@@ -484,11 +470,11 @@
               margin-left: 10px;
 
               .user-name {
-                  font-size: 14px;
+                  font-size: 1.1rem;
               }
 
               .user-role {
-                  font-size: 11px;
+                  font-size: 0.8rem;
               }
           }
       }
@@ -516,7 +502,7 @@
   }
 
   .main-content {
-      padding: 15px;
+     
 
       .page-header h1 {
           font-size: 22px;
@@ -545,7 +531,7 @@
       width: 240px;
       transform: translateX(-100%);
       z-index: 1000;
-      box-shadow: 2px 0 10px color(shadow-sidebar);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 
       &.active {
           transform: translateX(0);
@@ -553,7 +539,7 @@
   }
 
   .main-content {
-      padding: 15px;
+   
 
       .page-header h1 {
           font-size: 20px;
@@ -599,7 +585,6 @@
   }
 
   .main-content {
-      padding: 10px;
 
       .page-header {
           margin-bottom: 15px;
@@ -635,16 +620,16 @@
           .menu-toggle {
             right: -33px;
             top: 28px;
-            background-color: color(bg-sidebar);
+            background-color: #5E716A; /* color(bg-sidebar) */
             border-radius: 0 50% 50% 0;
             padding: 6px 8px 6px 4px;
             z-index: 1;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            border-left: 2px solid color(primary);
+            border-left: 2px solid #5E716A; /* color(bg-sidebar) */
 
             &:hover {
-              background-color: color(bg-sidebar-hover);
+              background-color: #4B5750; /* color(bg-sidebar-hover) */
               box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
             }
 

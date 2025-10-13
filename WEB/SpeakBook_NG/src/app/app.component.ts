@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private updateTitle(): void {
-    this.titleService.setTitle(this.translate.instant('SIDEBAR.SYSTEM_NAME'));
+    this.titleService.setTitle(this.translate.instant('COMMON.SYSTEM_NAME'));
   }
 
 }

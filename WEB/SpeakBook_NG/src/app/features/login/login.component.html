@@ -1,0 +1,43 @@
+﻿<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header class="logo-container">
+      <img src="img/logo.png" alt="Company Logo" class="login-logo">
+      <span class="login-title">{{ 'COMMON.SYSTEM_NAME' | translate }}</span>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-overlay">
+        <div class="loading-content">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p class="loading-text">{{ 'LOGIN.AUTHENTICATING' | translate }}</p>
+        </div>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'LOGIN.USERNAME' | translate }}</mat-label>
+          <input matInput formControlName="username" required [disabled]="loading">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
+          <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" required [disabled]="loading">
+          <mat-icon matSuffix (click)="togglePasswordVisibility()" class="password-toggle">
+            {{ showPassword ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="actions">
+      <button mat-flat-button
+              color="primary"
+              (click)="login()"
+              [disabled]="!loginForm.valid || loading">
+        <mat-icon *ngIf="loading">hourglass_empty</mat-icon>
+        {{ loading ? ('LOGIN.LOGGING_IN' | translate) : ('LOGIN.SIGN_IN' | translate) }}
+      </button>
+    </mat-card-actions>
+    <app-language-selector></app-language-selector>
+  </mat-card>
+</div>
+
+

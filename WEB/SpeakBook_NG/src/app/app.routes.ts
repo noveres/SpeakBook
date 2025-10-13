@@ -7,13 +7,18 @@ export const routes: Routes = [
   // 認證相關路由
   {
     path: 'login',
-    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent),
+    canActivate: [() => {
+      const isLoggedIn = localStorage.getItem('token') !== null;
+      // return !isLoggedIn ? true : ['/dashboard'];
+      return !isLoggedIn ? true : ['/home'];
+    }]
   },
     // HOME頁面
   {
     path: 'home',
     loadComponent: () => import('./features/home/pages/home/home.component').then(m => m.HomeComponent),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
 
   // 預設路由

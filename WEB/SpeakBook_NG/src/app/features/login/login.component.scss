@@ -1,0 +1,367 @@
+:host {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100vh; /* Use 100vh to ensure it takes full viewport height */
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg') center/cover;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px; /* Slightly wider card for better form layout */
+//   padding: 20px; /* Add some padding around the card */
+}
+.login-card{
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+mat-card {
+  border-radius: 8px; /* Rounded corners for a modern look */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Deeper shadow for elevation */
+  overflow: hidden; /* Ensure content respects border-radius */
+  height: 100vh;
+}
+
+mat-card-header {
+  padding: 20px 20px 0 20px; /* Add padding top and bottom, remove margin */
+  border-bottom: none; /* Remove border if any */
+  justify-content: center;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0; /* Add some vertical padding */
+}
+
+.login-logo {
+  max-width: 40px; /* Adjust max-width as needed */
+  height: auto;
+}
+
+.login-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 8px;
+  user-select: none;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased gap between form fields */
+  padding: 0 24px 24px 24px; /* Adjust padding */
+  position: relative; /* 添加 relative 定位，為 loading overlay 做準備 */
+}
+
+// Loading 覆蓋層樣式
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  .loading-text {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  mat-spinner {
+    ::ng-deep circle {
+      stroke: var(--primary-color);
+    }
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.password-toggle {
+  cursor: pointer;
+  color: #666;
+  
+  &:hover {
+    color: #333;
+  }
+}
+
+.actions{
+    width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: column; /* 改為垂直排列 */
+  align-items: stretch; /* 讓按鈕填滿寬度 */
+  gap: 15px; /* 按鈕之間的間距 */
+  padding: 0 24px 24px 24px; /* Adjust padding */
+}
+
+button[mat-raised-button][color="primary"] {
+  /* The color="primary" attribute should handle the background color from the theme */
+  /* Adding some custom styles for consistency with navigation buttons */
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* 讓按鈕寬度占滿容器 */
+
+  // Loading 狀態時的樣式
+  &:disabled {
+    background-color: #e0e0e0 !important;
+    color: #9e9e9e !important;
+    cursor: not-allowed;
+  }
+
+  // 包含圖標的按鈕樣式
+  mat-icon {
+    margin-right: 8px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+button[mat-raised-button][color="primary"]:hover {
+  /* Assuming primary color is dark blue, a slightly lighter shade or a subtle shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button[mat-button] {
+  color: #3B82F6; /* Use the vibrant blue from sidenav hover for cancel button */
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%; /* 讓按鈕寬度占滿容器 */
+}
+
+button[mat-button]:hover {
+  background-color: rgba(59, 130, 246, 0.1); /* Light blue background on hover */
+}
+
+/* Adjust mat-form-field label and input colors if needed for better contrast */
+::ng-deep .mat-form-field-label {
+  color: #555 !important;
+}
+
+::ng-deep .mat-form-field-outline {
+  color: #ccc !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3B82F6 !important; /* Focus color from sidenav hover */
+}
+
+/* 登入按鈕樣式 - 從參考目錄複製 */
+.sign-in-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.sign-in-btn:hover {
+    background-color: #34495e;
+}
+
+.sign-in-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* 分隔線樣式 */
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    color: #666;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e1e5e9;
+    z-index: 1;
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Google 按鈕包裝器 */
+.google-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* 典雅風格的自訂 Google 登入按鈕 */
+.custom-google-signin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    border: 1px solid #e8eaed;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Inter', 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #2d3748;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    padding: 0 28px;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-google-signin-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+}
+
+.custom-google-signin-btn:hover {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+    border-color: #d2d6da;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.custom-google-signin-btn:hover::before {
+    left: 100%;
+}
+
+.custom-google-signin-btn:focus {
+    outline: none;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+    border-color: #4285f4;
+    box-shadow: 0 4px 16px rgba(66, 133, 244, 0.15), 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+.custom-google-signin-btn:active {
+    background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
+.custom-google-signin-btn .google-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
+}
+
+.custom-google-signin-btn:hover .google-icon {
+    transform: scale(1.05);
+}
+
+.custom-google-signin-btn span {
+    color: #2d3748;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: color 0.3s ease;
+}
+
+.custom-google-signin-btn:hover span {
+    color: #1a202c;
+}
+
+.custom-google-signin-btn:disabled {
+    background: linear-gradient(135deg, #f7f8f9 0%, #e9ecef 100%);
+    border-color: #e9ecef;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.custom-google-signin-btn:disabled .google-icon {
+    opacity: 0.4;
+    filter: grayscale(100%) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+.custom-google-signin-btn:disabled span {
+    color: #9ca3af;
+    text-shadow: none;
+}
+
+/* 註冊連結樣式 */
+.signup-link {
+    text-align: center;
+    color: #666;
+}
+
+.signup-link a {
+    color: #4285f4;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* 視覺隱藏元素 - 用於無障礙功能 */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
