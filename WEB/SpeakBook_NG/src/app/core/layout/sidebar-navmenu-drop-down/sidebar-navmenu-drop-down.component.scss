@@ -12,14 +12,14 @@
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background-color: #E6E0CF;
+  background-color: #EBECEA;
 }
 
 // 頂部導航欄
 .top-header {
   height: 64px;
-  background-color: #5E716A;
-  color: #E6E0CF;
+  background-color: #195942;
+  color: #EBECEA;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -74,7 +74,7 @@
           padding: 5px;
 
           &:hover {
-              color: #4B5750;
+              color: #EBF2F1;
           }
 
           @media (max-width: 768px) {
@@ -110,8 +110,8 @@
               width: 10px;
               height: 10px;
               border-radius: 50%;
-              background-color: #5E716A;
-              border: 2px solid #E6E0CF;
+              background-color: #195942;
+              border: 2px solid #EBECEA;
           }
       }
   }
@@ -158,12 +158,12 @@
       .user-menu-name {
         font-weight: 600;
         font-size: 16px;
-        color: #4B5750;
+        color: #EBF2F1;
       }
 
       .user-menu-role {
         font-size: 14px;
-        color: #7C8C80;
+        color: #EBF2F1;
         margin-top: 4px;
       }
     }
@@ -175,7 +175,7 @@
 
     .mat-icon {
       margin-right: 8px;
-      color: #5E716A;
+      color: #195942;
     }
 
     &:hover {
@@ -188,8 +188,8 @@
 .sidebar {
   width: 300px;
   height: 100%;
-  background-color: #D6D9C3;
-  color: #5E716A;
+  background-color: #197352;
+  color: #195942;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -204,7 +204,7 @@
     border-bottom: 1px solid #D5D8CF;
     position: sticky;
     top: 0;
-    background-color: #D6D9C3;
+    background-color: #197352;
     z-index: 10;
 
     .avatar-container {
@@ -234,12 +234,12 @@
       .user-name {
         font-weight: 600;
         font-size: 1.1rem;
-        color: #4B5750;
+        color: #EBF2F1;
       }
 
       .user-role {
         font-size: 0.8rem;
-        color: #7C8C80;
+        color: #EBF2F1;
       }
     }
 
@@ -249,10 +249,10 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: #7C8C80;
+      color: #EBF2F1;
 
       &:hover {
-        color: #4B5750;
+        color: #EBF2F1;
       }
     }
   }
@@ -291,7 +291,7 @@
 
             &.active {
               background-color: transparent;
-              color: #7C8C80;
+              color: #EBF2F1;
               font-weight: normal;
               box-shadow: none;
             }
@@ -299,9 +299,12 @@
 
           .submenu {
             max-height: 0;
+            opacity: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
             margin-left: 22px; /* 調整縮進為適中大小 */
+            margin-top: 0;
+            margin-bottom: 0;
             display: flex;
             flex-direction: column;
             gap: 3px; /* 調整項目間距為適中大小 */
@@ -319,16 +322,16 @@
               font-weight: 500; /* 加粗字體 */
               border-radius: 0.3rem; /* 調整圓角 */
               height: 1.625rem; /* 調整子選單按鈕高度 */
-              background-color: #D6D9C3; /* 次背景色 */
+              background-color: #197352; /* 次背景色 */
               
               &:hover {
-                background-color: #D6DBCF;
-                color: #4B5750;
+                background-color: #2FA884;
+                color: #EBF2F1;
               }
 
               &.active {
-                background-color: #5E716A;
-                color: #E6E0CF; /* 白色文字確保在深色背景上可讀 */
+                background-color: #195942;
+                color: #EBECEA; /* 白色文字確保在深色背景上可讀 */
                 font-weight: 600;
               }
             }
@@ -348,7 +351,7 @@
           display: flex;
           align-items: center;
           padding: 0.425rem 0.5rem; /* 調整上下內邊距 */
-          color: #7C8C80; /* 默認淺灰色 */
+          color: #EBF2F1; /* 默認淺灰色 */
           text-decoration: none;
           transition: all 0.2s ease;
           position: relative;
@@ -358,13 +361,13 @@
           font-weight: 500; /* 加粗字體 */
 
           &:hover {
-            background-color: #D6DBCF;
-            color: #4B5750;
+            background-color: #2FA884;
+            color: #EBF2F1;
           }
 
           &.active {
-            background-color: #5E716A;
-            color: #E6E0CF; /* 白色文字確保在深色背景上可讀 */
+            background-color: #195942;
+            color: #EBECEA; /* 白色文字確保在深色背景上可讀 */
             font-weight: 600; /* 增加活動項目的字體粗度 */
           }
        }
@@ -417,7 +420,7 @@
 
   .content-wrapper {
     min-height: 100vh;
-    background-color: #E6E0CF;
+    background-color: #EBECEA;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
@@ -446,7 +449,7 @@
   // 內容區域
   .content-wrapper {
       min-height: 100vh;
-      background-color: #E6E0CF;
+      background-color: #EBECEA;
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       padding: 20px;
@@ -620,16 +623,16 @@
           .menu-toggle {
             right: -33px;
             top: 28px;
-            background-color: #5E716A; /* color(bg-sidebar) */
+            background-color: #195942; /* color(bg-sidebar) */
             border-radius: 0 50% 50% 0;
             padding: 6px 8px 6px 4px;
             z-index: 1;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            border-left: 2px solid #5E716A; /* color(bg-sidebar) */
+            border-left: 2px solid #195942; /* color(bg-sidebar) */
 
             &:hover {
-              background-color: #4B5750; /* color(bg-sidebar-hover) */
+              background-color: #2FA884; /* color(bg-sidebar-hover) */
               box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
             }
 
