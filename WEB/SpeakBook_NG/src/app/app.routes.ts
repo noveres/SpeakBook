@@ -20,6 +20,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/home/pages/home/home.component').then(m => m.HomeComponent),
     // canActivate: [AuthGuard]
   },
+  // 書籍頁面
+  {
+    path: 'book',
+    loadComponent: () => import('./features/book/page/book-page/book-page.component').then(m => m.BookPageComponent),
+    // canActivate: [AuthGuard]
+  },
 
   // 預設路由
   { path: '', redirectTo: 'home', pathMatch: 'full' },

@@ -1,0 +1,72 @@
+<!-- 載入狀態 -->
+<div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>載入中...</p>
+</div>
+
+<!-- 書籍卡片網格 -->
+<div *ngIf="!isLoading && books.length > 0" class="books-grid">
+    <div *ngFor="let book of books" class="book-card" (click)="onBookClick(book)">
+        <!-- 書籍封面 -->
+        <div class="book-cover">
+            <img [src]="book.coverImage || 'https://placehold.co/300x400/e0e0e0/757575?text=No+Image'" 
+                 [alt]="book.title" 
+                 (error)="onImageError($event)" />
+            <div class="book-overlay">
+                <button class="view-button">查看詳情</button>
+                <button class="edit-button">編輯</button>
+                <button class="delete-button">刪除</button>
+            </div>
+        </div>
+
+        <!-- 書籍資訊 -->
+        <div class="book-info">
+            <h3 class="book-title">{{ book.title }}</h3>
+            <p class="book-author">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ book.author }}
+            </p>
+            <p class="book-description">{{ book.description }}</p>
+
+            <!-- 書籍元數據 -->
+            <div class="book-meta">
+                <span class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                    </svg>
+                    {{ book.pages }} 頁
+                </span>
+                <span class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    {{ book.publishDate }}
+                </span>
+            </div>
+
+            <!-- 分類標籤 -->
+            <div class="book-category">
+                <span class="category-badge">{{ book.category }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 空狀態 -->
+<div *ngIf="!isLoading && books.length === 0" class="empty-state">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+    </svg>
+    <h3>目前沒有書籍</h3>
+    <p>請稍後再回來查看</p>
+</div>

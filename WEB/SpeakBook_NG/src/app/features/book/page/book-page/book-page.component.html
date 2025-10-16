@@ -1,0 +1,15 @@
+<!-- 搜尋框 -->
+
+<app-search-box placeholder="搜尋書籍名稱、作者或分類..." [(searchValue)]="searchValue" (search)="onSearch($event)">
+</app-search-box>
+
+
+<!-- 書籍列表 -->
+<app-list-books></app-list-books>
+
+<!-- 分頁器 -->
+<div class="pagination-section">
+    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalItems]="totalItems"
+        [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)">
+    </app-pagination>
+</div>

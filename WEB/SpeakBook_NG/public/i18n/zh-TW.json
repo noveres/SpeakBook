@@ -59,7 +59,10 @@
     "ALL": "全部"
   },
 "SIDEBAR": {
-  "HOME": "首頁"
+  "HOME": "首頁",
+  "BOOK_MANAGEMENT": "書籍管理",
+  "BOOK_LIST": "書籍列表",
+  "LOADING_TEXT": "載入中..."
 },
 "LOGIN": {
     "COMPANY_ID": "統編",
