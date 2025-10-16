@@ -39,7 +39,7 @@
     }
 }
 
-// 書籍網格
+// 教材網格
 .books-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -47,7 +47,7 @@
     padding: 1rem 0;
 }
 
-// 書籍卡片
+// 教材卡片
 .book-card {
     background: white;
     border-radius: 16px;
@@ -76,7 +76,7 @@
     }
 }
 
-// 書籍封面
+// 教材封面
 .book-cover {
     position: relative;
     width: 100%;
@@ -155,7 +155,7 @@
     }
 }
 
-// 書籍資訊
+// 教材資訊
 .book-info {
     padding: 1.5rem;
     flex: 1;

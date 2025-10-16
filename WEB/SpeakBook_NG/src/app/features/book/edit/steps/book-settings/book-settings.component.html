@@ -1,0 +1,117 @@
+<div class="settings-container">
+    <div class="settings-form">
+        <!-- 基本資訊 -->
+        <div class="form-section">
+            <h3>基本資訊</h3>
+
+            <div class="form-group">
+                <label for="title">教材標題 <span class="required">*</span></label>
+                <input type="text" id="title" [(ngModel)]="settings.title" (ngModelChange)="onSettingsChange()"
+                    placeholder="請輸入教材標題" required />
+            </div>
+
+            <div class="form-group">
+                <label for="author">作者</label>
+                <input type="text" id="author" [(ngModel)]="settings.author" (ngModelChange)="onSettingsChange()"
+                    placeholder="請輸入作者名稱" />
+            </div>
+
+            <div class="form-group">
+                <label for="description">教材描述</label>
+                <textarea id="description" [(ngModel)]="settings.description" (ngModelChange)="onSettingsChange()"
+                    placeholder="請輸入教材描述（建議 50-200 字）" rows="4"></textarea>
+                <span class="char-count">{{ settings.description.length }} / 200</span>
+            </div>
+        </div>
+
+        <!-- 分類設定 -->
+        <div class="form-section">
+            <h3>分類設定</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="category">教材類別</label>
+                    <select id="category" [(ngModel)]="settings.category" (ngModelChange)="onSettingsChange()">
+                        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetAge">適用年齡</label>
+                    <select id="targetAge" [(ngModel)]="settings.targetAge" (ngModelChange)="onSettingsChange()">
+                        <option *ngFor="let age of ageGroups" [value]="age">{{ age }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="difficulty">難度等級</label>
+                    <select id="difficulty" [(ngModel)]="settings.difficulty" (ngModelChange)="onSettingsChange()">
+                        <option *ngFor="let level of difficultyLevels" [value]="level">{{ level }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="pages">頁數</label>
+                    <input type="number" id="pages" [(ngModel)]="settings.pages" (ngModelChange)="onSettingsChange()"
+                        min="1" placeholder="請輸入頁數" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 標籤設定 -->
+        <div class="form-section">
+            <h3>標籤設定</h3>
+
+            <div class="form-group">
+                <label>教材標籤</label>
+                <div class="tag-input-wrapper">
+                    <input type="text" [(ngModel)]="newTag" (keypress)="onKeyPress($event)"
+                        placeholder="輸入標籤後按 Enter 或點擊添加" />
+                    <button type="button" class="add-tag-button" (click)="addTag()" [disabled]="!newTag.trim()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        添加
+                    </button>
+                </div>
+            </div>
+
+            <div class="tags-list" *ngIf="settings.tags.length > 0">
+                <div *ngFor="let tag of settings.tags" class="tag-item">
+                    <span>{{ tag }}</span>
+                    <button type="button" class="remove-tag" (click)="removeTag(tag)" title="移除標籤">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <p class="hint" *ngIf="settings.tags.length === 0">尚未添加任何標籤</p>
+        </div>
+
+        <!-- 提示訊息 -->
+        <div class="info-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <div>
+                <strong>提示：</strong>
+                <ul>
+                    <li>教材標題為必填項目</li>
+                    <li>建議填寫詳細的教材描述，有助於使用者了解內容</li>
+                    <li>標籤可以幫助教材更容易被搜尋到</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

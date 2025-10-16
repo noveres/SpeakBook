@@ -1,0 +1,343 @@
+.editor-container {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  height: 100%;
+  min-height: 600px;
+}
+
+// 左側編輯區
+.editor-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.canvas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.clear-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #c0392b;
+  }
+
+  &:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.canvas-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 650px;
+  overflow-y: auto;
+}
+
+.canvas-area {
+  position: relative;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: crosshair;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    max-height: 500px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
+.hotspot {
+  position: absolute;
+  border: 2px solid #005746;
+  background: rgba(0, 87, 70, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 87, 70, 0.3);
+    border-width: 3px;
+  }
+
+  &.selected {
+    border-color: #e74c3c;
+    background: rgba(231, 76, 60, 0.2);
+    border-width: 3px;
+  }
+
+  &.drawing {
+    border-style: dashed;
+    background: rgba(0, 143, 141, 0.15);
+  }
+}
+
+.hotspot-label {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  background: #005746;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+
+  .selected & {
+    background: #e74c3c;
+  }
+}
+
+.canvas-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: #e8f5f1;
+  border-radius: 6px;
+  color: #005746;
+  font-size: 0.9rem;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.no-image {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 3rem;
+
+  svg {
+    color: #bdc3c7;
+  }
+
+  p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 1rem;
+  }
+}
+
+// 右側編輯面板
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow-y: auto;
+
+  h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #ecf0f1;
+  }
+
+  h4 {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.hotspot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.hotspot-item {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e8f5f1;
+    border-color: #005746;
+  }
+
+  &.active {
+    background: #e8f5f1;
+    border-color: #005746;
+  }
+}
+
+.hotspot-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.hotspot-item-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.delete-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: #7f8c8d;
+
+  &:hover {
+    background: #e74c3c;
+    color: white;
+  }
+}
+
+.hotspot-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.no-hotspots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+
+  svg {
+    color: #bdc3c7;
+  }
+
+  p {
+    margin: 0;
+    color: #7f8c8d;
+  }
+}
+
+.hotspot-details {
+  padding-top: 1rem;
+  border-top: 2px solid #ecf0f1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  min-width: 0; // 關鍵：允許 Grid 項目縮小到比內容更小
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  input {
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #005746;
+      box-shadow: 0 0 0 3px rgba(0, 87, 70, 0.1);
+    }
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+// 響應式設計
+@media (max-width: 1200px) {
+  .editor-container {
+    grid-template-columns: 1fr 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .editor-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .editor-panel {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .canvas-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .clear-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

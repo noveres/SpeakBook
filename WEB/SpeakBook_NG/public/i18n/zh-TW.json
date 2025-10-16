@@ -1,5 +1,5 @@
 {
- "COMMON": {
+  "COMMON": {
     "SYSTEM_NAME": "指尖觸控有聲教材管理系統",
     "CLOSE": "關閉",
     "OPEN": "開啟",
@@ -34,7 +34,7 @@
     "ACTIONS": "操作",
     "CHAR_LIMIT": "字元限制 ({{current}}/{{max}})",
     "LOADING_DATA": "載入中...",
-    "UPDATED_TIME":"更新時間",
+    "UPDATED_TIME": "更新時間",
     "CLEAR_SEARCH": "清除搜尋",
     "SEARCH_ASSET_NAME": "搜尋資產名稱",
     "SEARCH_ASSET_NO": "搜尋資產編號",
@@ -58,13 +58,14 @@
     "LOGOUT": "登出",
     "ALL": "全部"
   },
-"SIDEBAR": {
-  "HOME": "首頁",
-  "BOOK_MANAGEMENT": "書籍管理",
-  "BOOK_LIST": "書籍列表",
-  "LOADING_TEXT": "載入中..."
-},
-"LOGIN": {
+  "SIDEBAR": {
+    "HOME": "首頁",
+    "BOOK_MANAGEMENT": "教材管理",
+    "BOOK_LIST": "教材列表",
+    "BOOK_CREATE": "創建教材",
+    "LOADING_TEXT": "載入中..."
+  },
+  "LOGIN": {
     "COMPANY_ID": "統編",
     "COMPANY_ID_PLACEHOLDER": "請輸入公司統一編號",
     "USERNAME": "帳號",
@@ -89,64 +90,63 @@
     "LOGIN_FAILED_CREDENTIALS": "登入失敗，請檢查您的帳號密碼",
     "LOGIN_FAILED_UNEXPECTED": "登入失敗，發生未預期的錯誤"
   },
-
-"HOME": {
-  "WELCOME": {
-    "TITLE": "歡迎來到互動繪本手指偵測與聲音回饋系統",
-    "DESCRIPTION": "這是一套專為教育場域與家庭互動設計的教材平台。透過觸控或實體繪本指向偵測，系統能即時播放對應音效與語音，打造沉浸式、低延遲的多感官學習體驗。老師與家長可輕鬆上傳繪本、標註教材熱區，學生只需「指一指」或「點一下」，就能開啟故事與知識的聲音之旅。"
-  },
-  "SLIDES": {
-    "SLIDE1": {
-      "TITLE": "雙模式互動",
-      "SUBTITLE": "觸控 + 手指偵測",
-      "DESCRIPTION": "支援平板點擊與攝影機實體繪本指向兩種模式，靈活應用於課堂與家庭場景。"
+  "HOME": {
+    "WELCOME": {
+      "TITLE": "歡迎來到互動繪本手指偵測與聲音回饋系統",
+      "DESCRIPTION": "這是一套專為教育場域與家庭互動設計的教材平台。透過觸控或實體繪本指向偵測，系統能即時播放對應音效與語音，打造沉浸式、低延遲的多感官學習體驗。老師與家長可輕鬆上傳繪本、標註教材熱區，學生只需「指一指」或「點一下」，就能開啟故事與知識的聲音之旅。"
     },
-    "SLIDE2": {
-      "TITLE": "低延遲回饋",
-      "SUBTITLE": "即時觸發聲音教材",
-      "DESCRIPTION": "前端演算法與本地推論最佳化，觸控延遲 <150ms、指向延遲 <300ms，確保互動流暢自然。"
+    "SLIDES": {
+      "SLIDE1": {
+        "TITLE": "雙模式互動",
+        "SUBTITLE": "觸控 + 手指偵測",
+        "DESCRIPTION": "支援平板點擊與攝影機實體繪本指向兩種模式，靈活應用於課堂與家庭場景。"
+      },
+      "SLIDE2": {
+        "TITLE": "低延遲回饋",
+        "SUBTITLE": "即時觸發聲音教材",
+        "DESCRIPTION": "前端演算法與本地推論最佳化，觸控延遲 <150ms、指向延遲 <300ms，確保互動流暢自然。"
+      },
+      "SLIDE3": {
+        "TITLE": "雲端與離線整合",
+        "SUBTITLE": "教材同步不間斷",
+        "DESCRIPTION": "支援多使用者教材管理與版本同步，並可離線快取，校園與家庭皆可使用。"
+      }
     },
-    "SLIDE3": {
-      "TITLE": "雲端與離線整合",
-      "SUBTITLE": "教材同步不間斷",
-      "DESCRIPTION": "支援多使用者教材管理與版本同步，並可離線快取，校園與家庭皆可使用。"
+    "FEATURES": {
+      "HOTSPOT_EDITOR": {
+        "TITLE": "教材熱區編輯器",
+        "DESCRIPTION": "上傳繪本頁面，使用 Canvas 或觸控直接標註矩形、多邊形熱區，綁定音效或文字朗讀。"
+      },
+      "FINGER_DETECTION": {
+        "TITLE": "精準手指偵測",
+        "DESCRIPTION": "結合 Mediapipe AI 與傳統演算法，可於不同光源與背景下穩定偵測手指位置。"
+      },
+      "AUDIO_ENGINE": {
+        "TITLE": "高效音訊引擎",
+        "DESCRIPTION": "支援多種音檔格式與自動轉碼，並內建音量正規化，確保教材播放品質一致。"
+      },
+      "SCALABLE_ARCHITECTURE": {
+        "TITLE": "可擴充系統架構",
+        "DESCRIPTION": "後端採 Spring Boot + PostgreSQL + CDN 架構，支援雲端或校園本地部署，維運靈活。"
+      },
+      "EDUCATION": {
+        "TITLE": "教材熱區標註",
+        "DESCRIPTION": "支援矩形與多邊形標註，教師與家長可輕鬆將繪本頁面轉化為互動教材，綁定音效、TTS 或跳頁行為。"
+      },
+      "GREEN_CAMPUS": {
+        "TITLE": "低延遲互動體驗",
+        "DESCRIPTION": "本地推論與演算法最佳化，觸控回應小於150毫秒、手指偵測小於300毫秒，讓學童的互動即時自然。"
+      },
+      "READING": {
+        "TITLE": "多感官學習",
+        "DESCRIPTION": "結合視覺與聽覺，學生只需『指一指』或『點一下』，即可觸發音效與語音朗讀，提升專注與理解力。"
+      },
+      "INTERNATIONAL": {
+        "TITLE": "跨平台與可擴充架構",
+        "DESCRIPTION": "支援 Android、Web 與本地部署；後端採 Spring Boot + PostgreSQL + CDN 架構，便於學校或家庭彈性使用與擴充。"
+      }
     }
   },
-  "FEATURES": {
-    "HOTSPOT_EDITOR": {
-      "TITLE": "教材熱區編輯器",
-      "DESCRIPTION": "上傳繪本頁面，使用 Canvas 或觸控直接標註矩形、多邊形熱區，綁定音效或文字朗讀。"
-    },
-    "FINGER_DETECTION": {
-      "TITLE": "精準手指偵測",
-      "DESCRIPTION": "結合 Mediapipe AI 與傳統演算法，可於不同光源與背景下穩定偵測手指位置。"
-    },
-    "AUDIO_ENGINE": {
-      "TITLE": "高效音訊引擎",
-      "DESCRIPTION": "支援多種音檔格式與自動轉碼，並內建音量正規化，確保教材播放品質一致。"
-    },
-    "SCALABLE_ARCHITECTURE": {
-      "TITLE": "可擴充系統架構",
-      "DESCRIPTION": "後端採 Spring Boot + PostgreSQL + CDN 架構，支援雲端或校園本地部署，維運靈活。"
-    },
-    "EDUCATION": {
-      "TITLE": "教材熱區標註",
-      "DESCRIPTION": "支援矩形與多邊形標註，教師與家長可輕鬆將繪本頁面轉化為互動教材，綁定音效、TTS 或跳頁行為。"
-    },
-    "GREEN_CAMPUS": {
-      "TITLE": "低延遲互動體驗",
-      "DESCRIPTION": "本地推論與演算法最佳化，觸控回應小於150毫秒、手指偵測小於300毫秒，讓學童的互動即時自然。"
-    },
-    "READING": {
-      "TITLE": "多感官學習",
-      "DESCRIPTION": "結合視覺與聽覺，學生只需『指一指』或『點一下』，即可觸發音效與語音朗讀，提升專注與理解力。"
-    },
-    "INTERNATIONAL": {
-      "TITLE": "跨平台與可擴充架構",
-      "DESCRIPTION": "支援 Android、Web 與本地部署；後端採 Spring Boot + PostgreSQL + CDN 架構，便於學校或家庭彈性使用與擴充。"
-    }
-  }
-},
   "USER": {
     "DEFAULT_USER": "一般使用者",
     "DEFAULT_ROLE": "一般使用者",
@@ -154,5 +154,4 @@
     "SETTINGS": "設定",
     "LOGOUT": "登出"
   }
-
 }

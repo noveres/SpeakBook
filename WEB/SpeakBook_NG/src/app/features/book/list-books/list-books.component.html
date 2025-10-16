@@ -4,14 +4,13 @@
     <p>載入中...</p>
 </div>
 
-<!-- 書籍卡片網格 -->
+<!-- 教材卡片網格 -->
 <div *ngIf="!isLoading && books.length > 0" class="books-grid">
     <div *ngFor="let book of books" class="book-card" (click)="onBookClick(book)">
-        <!-- 書籍封面 -->
+        <!-- 教材封面 -->
         <div class="book-cover">
-            <img [src]="book.coverImage || 'https://placehold.co/300x400/e0e0e0/757575?text=No+Image'" 
-                 [alt]="book.title" 
-                 (error)="onImageError($event)" />
+            <img [src]="book.coverImage || 'https://placehold.co/300x400/e0e0e0/757575?text=No+Image'"
+                [alt]="book.title" (error)="onImageError($event)" />
             <div class="book-overlay">
                 <button class="view-button">查看詳情</button>
                 <button class="edit-button">編輯</button>
@@ -19,7 +18,7 @@
             </div>
         </div>
 
-        <!-- 書籍資訊 -->
+        <!-- 教材資訊 -->
         <div class="book-info">
             <h3 class="book-title">{{ book.title }}</h3>
             <p class="book-author">
@@ -32,15 +31,15 @@
             </p>
             <p class="book-description">{{ book.description }}</p>
 
-            <!-- 書籍元數據 -->
+            <!-- 教材元數據 -->
             <div class="book-meta">
-                <span class="meta-item">
+                <!-- <span class="meta-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
                     </svg>
                     {{ book.pages }} 頁
-                </span>
+                </span> -->
                 <span class="meta-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -67,6 +66,6 @@
         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
     </svg>
-    <h3>目前沒有書籍</h3>
+    <h3>目前沒有教材</h3>
     <p>請稍後再回來查看</p>
 </div>

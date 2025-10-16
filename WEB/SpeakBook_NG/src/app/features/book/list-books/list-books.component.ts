@@ -27,7 +27,7 @@ export class ListBooksComponent implements OnInit {
   }
 
   loadBooks(): void {
-    // 模擬書籍數據
+    // 模擬教材數據
     this.books = [
       {
         id: 1,
@@ -93,8 +93,8 @@ export class ListBooksComponent implements OnInit {
   }
 
   onBookClick(book: Book): void {
-    console.log('點擊書籍:', book);
-    // 這裡可以導航到書籍詳情頁面
+    console.log('點擊教材:', book);
+    // 這裡可以導航到教材詳情頁面
   }
 
   onImageError(event: Event): void {
