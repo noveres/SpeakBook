@@ -1,0 +1,46 @@
+<div class="virtual-select-container" [class.disabled]="disabled">
+  <div class="select-trigger" (click)="toggleDropdown()" [class.open]="isOpen" [class.has-value]="selectedOption">
+    <span class="selected-text" [class.placeholder]="!selectedOption">
+      {{ selectedOption ? selectedOption.name : placeholder }}
+    </span>
+    <span class="arrow" [class.open]="isOpen">
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+        <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </span>
+  </div>
+
+
+
+  <div class="dropdown" [class.open]="isOpen" #dropdown>
+    <div class="search-container" *ngIf="searchable">
+      <input type="text" class="search-input" [(ngModel)]="searchTerm" (input)="onSearch($event)"
+        (keydown)="onSearchKeydown($event)" (compositionstart)="isComposing = true"
+        (compositionend)="handleCompositionEnd($event)" [placeholder]="searchPlaceholder" inputmode="search"
+        autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+    </div>
+
+    <div class="options-container" #optionsContainer (scroll)="onScroll($event)">
+      <div class="option" *ngFor="let option of visibleOptions; trackBy: trackByFn; let i = index"
+        (click)="selectOption(option)" [class.selected]="selectedOption?.id === option.id"
+        [class.highlighted]="highlightedIndex === i" [ngClass]="option['__isPreset'] === true ? presetClass : null">
+        {{ option.name }}
+      </div>
+
+      <div class="loading-indicator" *ngIf="isLoading || loading">
+        <div class="spinner"></div>
+        <span>載入中...</span>
+      </div>
+
+      <div class="end-indicator"
+        *ngIf="!isLoading && !loading && isReachedEnd && visibleOptions.length > 0 && showEndIndicator">
+        <span>到底了</span>
+      </div>
+
+      <div class="no-options" *ngIf="!isLoading && !loading && visibleOptions.length === 0">
+        {{ searchTerm ? '沒有找到匹配的選項' : '沒有選項' }}
+      </div>
+    </div>
+  </div>
+</div>

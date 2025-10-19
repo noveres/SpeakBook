@@ -2,6 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UploadedImage } from '../upload-image/upload-image.component';
+import { VirtualSelectComponent, SelectOption } from '@shared/components/ui';
+import { AUDIO_DATA } from '@core/constants/audio-data';
 
 export interface Hotspot {
   id: string;
@@ -15,7 +17,7 @@ export interface Hotspot {
 
 @Component({
   selector: 'app-image-editor',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, VirtualSelectComponent],
   templateUrl: './image-editor.component.html',
   styleUrl: './image-editor.component.scss'
 })
@@ -32,13 +34,30 @@ export class ImageEditorComponent implements OnChanges {
   canvasWidth = 0;
   canvasHeight = 0;
 
+  // 音訊選項
+  audioOptions: SelectOption[] = [];
+  selectedAudioId: string | null = null;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedImage'] && this.selectedImage) {
       // 清空熱區當切換圖片時
       this.hotspots = [];
       this.selectedHotspot = null;
       this.currentHotspot = null;
+      this.loadAudioOptions();
     }
+  }
+
+  loadAudioOptions(): void {
+    // 使用共享的音訊數據
+    // 實際項目中應該調用 audioService.getAudioList()
+    this.audioOptions = AUDIO_DATA.map(audio => ({
+      id: audio.id,
+      name: audio.name,
+      url: audio.url,
+      duration: audio.duration,
+      category: audio.category
+    }));
   }
 
   onImageLoad(event: Event): void {
@@ -100,6 +119,16 @@ export class ImageEditorComponent implements OnChanges {
 
   selectHotspot(hotspot: Hotspot): void {
     this.selectedHotspot = hotspot;
+    // 設置當前選中的音訊 ID
+    this.selectedAudioId = hotspot.audioUrl || null;
+  }
+
+  onAudioChange(option: SelectOption | null): void {
+    if (this.selectedHotspot && option) {
+      // 更新選中熱區的音訊 URL（使用完整的 URL）
+      this.selectedHotspot.audioUrl = (option as any).url || option.id;
+      console.log('更新熱區音訊:', this.selectedHotspot.label, '音訊URL:', this.selectedHotspot.audioUrl);
+    }
   }
 
   deleteHotspot(hotspot: Hotspot): void {

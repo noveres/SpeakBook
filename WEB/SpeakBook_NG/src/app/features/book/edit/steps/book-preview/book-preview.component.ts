@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UploadedImage } from '../upload-image/upload-image.component';
 import { Hotspot } from '../image-editor/image-editor.component';
 import { BookSettings } from '../book-settings/book-settings.component';
+import { getAudioNameByUrl } from '@core/constants/audio-data';
 
 @Component({
   selector: 'app-book-preview',
@@ -68,5 +69,10 @@ export class BookPreviewComponent {
 
   formatDate(date: string): string {
     return new Date(date).toLocaleDateString('zh-TW');
+  }
+
+  getAudioName(audioUrl: string): string {
+    // 使用共享的函數獲取音訊名稱
+    return getAudioNameByUrl(audioUrl);
   }
 }

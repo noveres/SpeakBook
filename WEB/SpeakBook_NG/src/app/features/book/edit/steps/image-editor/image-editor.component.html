@@ -97,8 +97,16 @@
                 <input type="text" [(ngModel)]="selectedHotspot.label" placeholder="輸入熱區標籤" />
             </div>
             <div class="form-group">
-                <label>音訊檔案 URL</label>
-                <input type="text" [(ngModel)]="selectedHotspot.audioUrl" placeholder="輸入音訊檔案 URL" />
+                <label>音訊檔案</label>
+                <app-virtual-select 
+                    [options]="audioOptions" 
+                    [(ngModel)]="selectedAudioId"
+                    (selectionChange)="onAudioChange($event)"
+                    [placeholder]="'選擇音訊檔案'"
+                    [searchPlaceholder]="'搜尋音訊...'"
+                    [searchable]="true"
+                    [enablePagination]="false">
+                </app-virtual-select>
             </div>
 
             <div class="form-row">

@@ -64,7 +64,7 @@
                                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                             </svg>
-                            已設定音訊
+                            音訊: {{ getAudioName(hotspot.audioUrl) }}
                         </span>
                     </div>
                 </div>
@@ -106,15 +106,8 @@
             </div>
 
             <div class="info-description">
-                <label>教材描述</label>
+                <label>描述</label>
                 <p>{{ settings.description || '尚未填寫描述' }}</p>
-            </div>
-
-            <div class="info-tags" *ngIf="settings.tags.length > 0">
-                <label>標籤</label>
-                <div class="tags">
-                    <span *ngFor="let tag of settings.tags" class="tag">{{ tag }}</span>
-                </div>
             </div>
         </div>
 

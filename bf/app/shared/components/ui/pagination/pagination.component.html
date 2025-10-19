@@ -1,0 +1,51 @@
+<div class="pagination-container" *ngIf="totalPages > 1">
+  <div class="pagination-info">
+    <span>顯示 {{ startItem }} - {{ endItem }} 筆，共 {{ totalItems }} 筆</span>
+  </div>
+
+  <div class="pagination-controls">
+    <!-- 第一頁按鈕 -->
+    <button class="pagination-button" [disabled]="currentPage === 1" (click)="goToFirstPage()" title="第一頁">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="11 17 6 12 11 7"></polyline>
+        <polyline points="18 17 13 12 18 7"></polyline>
+      </svg>
+    </button>
+
+    <!-- 上一頁按鈕 -->
+    <button class="pagination-button" [disabled]="currentPage === 1" (click)="goToPreviousPage()" title="上一頁">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- 頁碼按鈕 -->
+    <button *ngIf="pages[0] > 1" class="pagination-button" disabled>...</button>
+
+    <button *ngFor="let page of pages" class="pagination-button page-number" [class.active]="page === currentPage"
+      (click)="goToPage(page)">
+      {{ page }}
+    </button>
+
+    <button *ngIf="pages[pages.length - 1] < totalPages" class="pagination-button" disabled>...</button>
+
+    <!-- 下一頁按鈕 -->
+    <button class="pagination-button" [disabled]="currentPage === totalPages" (click)="goToNextPage()" title="下一頁">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- 最後一頁按鈕 -->
+    <button class="pagination-button" [disabled]="currentPage === totalPages" (click)="goToLastPage()" title="最後一頁">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="13 17 18 12 13 7"></polyline>
+        <polyline points="6 17 11 12 6 7"></polyline>
+      </svg>
+    </button>
+  </div>
+</div>

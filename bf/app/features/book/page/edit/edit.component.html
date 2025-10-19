@@ -1,0 +1,53 @@
+<mat-stepper #stepper linear>
+    <!-- 步驟 1: 上傳圖片 -->
+    <mat-step label="上傳圖片">
+        <div class="step-content">
+            <app-upload-image (imageSelected)="onImageSelected($event)"></app-upload-image>
+        </div>
+        <div class="step-actions">
+            <button mat-raised-button color="primary" matStepperNext [disabled]="!selectedImage">
+                下一步
+            </button>
+        </div>
+    </mat-step>
+
+    <!-- 步驟 2: 編輯熱區 -->
+    <mat-step label="編輯熱區">
+        <div class="step-content">
+            <app-image-editor [selectedImage]="selectedImage"></app-image-editor>
+        </div>
+        <div class="step-actions">
+            <button mat-button matStepperPrevious>上一步</button>
+            <button mat-raised-button color="primary" matStepperNext>
+                下一步
+            </button>
+        </div>
+    </mat-step>
+
+    <!-- 步驟 3: 設定資訊 -->
+    <mat-step label="設定資訊">
+        <div class="step-content">
+            <app-book-settings [settings]="bookSettings" (settingsChange)="onSettingsChange($event)">
+            </app-book-settings>
+        </div>
+        <div class="step-actions">
+            <button mat-button matStepperPrevious>上一步</button>
+            <button mat-raised-button color="primary" matStepperNext (click)="onNextToPreview()"
+                [disabled]="!bookSettings.title">
+                下一步
+            </button>
+        </div>
+    </mat-step>
+
+    <!-- 步驟 4: 預覽與發布 -->
+    <mat-step label="預覽與發布" (interacted)="onNextToPreview()">
+        <div class="step-content preview-step">
+            <app-book-preview [uploadedImage]="selectedImage" [hotspots]="hotspots" [settings]="bookSettings"
+                (publish)="onPublish()" (saveDraft)="onSaveDraft()">
+            </app-book-preview>
+        </div>
+        <div class="step-actions">
+            <button mat-button matStepperPrevious>上一步</button>
+        </div>
+    </mat-step>
+</mat-stepper>

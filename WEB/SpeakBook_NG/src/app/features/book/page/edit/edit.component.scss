@@ -36,6 +36,8 @@
 
   .mat-step-header {
     padding: 1rem;
+    pointer-events: none !important; // 禁止點擊
+    cursor: default !important; // 移除指針樣式
 
     .mat-step-icon {
       background-color: #bdc3c7;
@@ -58,6 +60,17 @@
     .mat-step-label-selected {
       color: #005746;
       font-weight: 600;
+    }
+
+    // 移除懸停效果
+    &:hover {
+      background-color: transparent !important;
+    }
+
+    // 確保所有子元素也不可點擊
+    * {
+      pointer-events: none !important;
+      cursor: default !important;
     }
   }
 
