@@ -20,8 +20,8 @@
 
                 <!-- 已保存的熱區 -->
                 <div *ngFor="let hotspot of hotspots" class="hotspot"
-                    [class.selected]="selectedHotspot?.id === hotspot.id" [style.left.px]="hotspot.x"
-                    [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
+                    [class.selected]="selectedHotspot?.id === hotspot.id"
+                    [ngStyle]="getScaledHotspotStyle(hotspot)"
                     (click)="selectHotspot(hotspot)">
                     <span class="hotspot-label">{{ hotspot.label }}</span>
                 </div>

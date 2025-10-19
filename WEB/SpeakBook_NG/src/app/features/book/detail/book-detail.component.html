@@ -19,15 +19,15 @@
         <!-- 左側：封面圖片與熱區 -->
         <div class="cover-section">
             <div class="image-container">
-                <img [src]="book.coverImage || 'https://placehold.co/400x600/e0e0e0/757575?text=No+Image'"
+                <img [src]="book.coverImageUrl || 'https://placehold.co/400x600/e0e0e0/757575?text=No+Image'"
                     [alt]="book.title" [title]="book.title" (error)="onImageError($event)" (load)="onImageLoad($event)"
                     class="cover-image" />
 
                 <!-- 熱區顯示 -->
                 <div class="hotspots-overlay" *ngIf="imageLoaded && hotspots.length > 0">
                     <div *ngFor="let hotspot of hotspots" class="hotspot"
-                        [class.selected]="selectedHotspot?.id === hotspot.id" [style.left.px]="hotspot.x"
-                        [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
+                        [class.selected]="selectedHotspot?.id === hotspot.id"
+                        [ngStyle]="getScaledHotspotStyle(hotspot)"
                         (click)="selectHotspot(hotspot)" [title]="hotspot.label">
                         <span class="hotspot-label">{{ hotspot.label }}</span>
                         <button class="play-audio-btn" *ngIf="hotspot.audioUrl" (click)="playAudio(hotspot); $event.stopPropagation()"
@@ -77,7 +77,7 @@
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
                     <span class="meta-label">出版日期：</span>
-                    <span class="meta-value">{{ book.publishDate }}</span>
+                    <span class="meta-value">{{ book.publishedAt | date:'yyyy-MM-dd' }}</span>
                 </div>
 
                 <div class="meta-item">
