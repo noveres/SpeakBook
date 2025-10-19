@@ -12,6 +12,7 @@ export interface Hotspot {
   width: number;
   height: number;
   label: string;
+  audioId?: string;
   audioUrl?: string;
 }
 
@@ -119,15 +120,18 @@ export class ImageEditorComponent implements OnChanges {
 
   selectHotspot(hotspot: Hotspot): void {
     this.selectedHotspot = hotspot;
-    // 設置當前選中的音訊 ID
-    this.selectedAudioId = hotspot.audioUrl || null;
+    // 設置當前選中的音訊 ID（使用 audioId 而非 audioUrl）
+    this.selectedAudioId = hotspot.audioId || null;
   }
 
   onAudioChange(option: SelectOption | null): void {
     if (this.selectedHotspot && option) {
-      // 更新選中熱區的音訊 URL（使用完整的 URL）
+      // 同時保存音訊 ID 和 URL
+      this.selectedHotspot.audioId = option.id;
       this.selectedHotspot.audioUrl = (option as any).url || option.id;
-      console.log('更新熱區音訊:', this.selectedHotspot.label, '音訊URL:', this.selectedHotspot.audioUrl);
+      // 同步更新 selectedAudioId
+      this.selectedAudioId = option.id;
+      console.log('更新熱區音訊:', this.selectedHotspot.label, '音訊ID:', option.id, '音訊URL:', this.selectedHotspot.audioUrl);
     }
   }
 
