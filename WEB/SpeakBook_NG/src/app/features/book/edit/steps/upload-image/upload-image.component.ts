@@ -22,6 +22,7 @@ export class UploadImageComponent implements OnDestroy {
     selectedImage: UploadedImage | null = null;
     isDragging = false;
     readonly maxImages = 1; // 最大上傳數量
+    readonly maxFileSize = 10 * 1024 * 1024; // 10MB 檔案大小限制
 
     get isMaxReached(): boolean {
         return this.uploadedImages.length >= this.maxImages;
@@ -90,25 +91,35 @@ export class UploadImageComponent implements OnDestroy {
         }
 
         filesToProcess.forEach(file => {
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const uploadedImage: UploadedImage = {
-                        id: this.generateId(),
-                        file: file,
-                        url: e.target?.result as string,
-                        name: file.name,
-                        size: file.size
-                    };
-                    this.uploadedImages.push(uploadedImage);
-
-                    // 自動選擇第一張圖片
-                    if (this.uploadedImages.length === 1) {
-                        this.selectImage(uploadedImage);
-                    }
-                };
-                reader.readAsDataURL(file);
+            // 檢查檔案類型
+            if (!file.type.startsWith('image/')) {
+                alert(`檔案 "${file.name}" 不是有效的圖片格式`);
+                return;
             }
+
+            // 檢查檔案大小（10MB 限制）
+            if (file.size > this.maxFileSize) {
+                alert(`檔案 "${file.name}" 超過 10MB 大小限制（檔案大小: ${this.formatFileSize(file.size)}）`);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const uploadedImage: UploadedImage = {
+                    id: this.generateId(),
+                    file: file,
+                    url: e.target?.result as string,
+                    name: file.name,
+                    size: file.size
+                };
+                this.uploadedImages.push(uploadedImage);
+
+                // 自動選擇第一張圖片
+                if (this.uploadedImages.length === 1) {
+                    this.selectImage(uploadedImage);
+                }
+            };
+            reader.readAsDataURL(file);
         });
     }
 

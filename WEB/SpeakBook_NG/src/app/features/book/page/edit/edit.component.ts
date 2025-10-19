@@ -28,6 +28,7 @@ import { BookService } from '../../service/book.service';
 export class EditComponent implements OnInit {
   @ViewChild('stepper') stepper!: MatStepper;
   @ViewChild(ImageEditorComponent) imageEditor!: ImageEditorComponent;
+  @ViewChild(BookPreviewComponent) bookPreview!: BookPreviewComponent;
 
   selectedImage: UploadedImage | null = null;
   hotspots: Hotspot[] = [];
@@ -104,11 +105,19 @@ export class EditComponent implements OnInit {
       next: (response) => {
         console.log('教材發布成功:', response);
         alert('教材發布成功！');
+        // 重置發布狀態
+        if (this.bookPreview) {
+          this.bookPreview.isPublishing = false;
+        }
         this.router.navigate(['/book']);
       },
       error: (error) => {
         console.error('發布失敗:', error);
         alert('發布失敗：' + error.message);
+        // 發布失敗時重置狀態,讓使用者可以重試
+        if (this.bookPreview) {
+          this.bookPreview.isPublishing = false;
+        }
       }
     });
   }
@@ -125,11 +134,19 @@ export class EditComponent implements OnInit {
       next: (response) => {
         console.log('草稿儲存成功:', response);
         alert('草稿儲存成功！');
+        // 重置儲存狀態
+        if (this.bookPreview) {
+          this.bookPreview.isSavingDraft = false;
+        }
         this.router.navigate(['/book']);
       },
       error: (error) => {
         console.error('儲存失敗:', error);
         alert('儲存失敗：' + error.message);
+        // 儲存失敗時重置狀態,讓使用者可以重試
+        if (this.bookPreview) {
+          this.bookPreview.isSavingDraft = false;
+        }
       }
     });
   }

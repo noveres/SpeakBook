@@ -15,7 +15,7 @@ export interface CatboxUploadResponse {
 export class CatboxUploadService {
   private readonly UPLOAD_API_URL = `${environment.apiBaseUrl}/api/upload/image`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * 上傳圖片到 Catbox.moe（通過後端代理）
@@ -28,10 +28,10 @@ export class CatboxUploadService {
       return throwError(() => new Error('不支援的圖片格式，請上傳 JPG、PNG、GIF 或 WebP 格式'));
     }
 
-    // 驗證檔案大小（限制 20MB）
-    const maxSize = 20 * 1024 * 1024; // 20MB
+    // 驗證檔案大小（限制 10MB）
+    const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
-      return throwError(() => new Error('圖片檔案過大，請上傳小於 20MB 的圖片'));
+      return throwError(() => new Error('圖片檔案過大,請上傳小於 10MB 的圖片'));
     }
 
     // 準備 FormData
@@ -40,7 +40,7 @@ export class CatboxUploadService {
 
     // 通過後端代理上傳到 Catbox
     return this.http.post<{ success: boolean; data?: CatboxUploadResponse; errorMsg?: string }>(
-      this.UPLOAD_API_URL, 
+      this.UPLOAD_API_URL,
       formData
     ).pipe(
       map(response => {
@@ -80,7 +80,7 @@ export class CatboxUploadService {
    */
   uploadMultipleImages(files: File[]): Observable<CatboxUploadResponse[]> {
     const uploadObservables = files.map(file => this.uploadImage(file));
-    
+
     // 使用 forkJoin 等待所有上傳完成
     return new Observable(observer => {
       const results: CatboxUploadResponse[] = [];
@@ -91,7 +91,7 @@ export class CatboxUploadService {
           next: (result) => {
             results[index] = result;
             completed++;
-            
+
             if (completed === files.length) {
               observer.next(results);
               observer.complete();
