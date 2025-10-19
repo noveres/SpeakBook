@@ -86,14 +86,17 @@ export class ListBooksComponent implements OnInit, OnChanges {
     event.stopPropagation();
     
     if (confirm(`確定要刪除教材「${book.title}」嗎？`)) {
-      console.log('刪除教材:', book);
-      
-      // TODO: 調用後端 API 刪除教材
-      // this.bookEditService.deleteBook(book.id).subscribe(...);
-      
-      // 暫時從列表中移除
-      this.books = this.books.filter(b => b.id !== book.id);
-      alert('教材已成功刪除');
+      this.bookQueryService.deleteBook(book.id).subscribe({
+        next: () => {
+          alert('教材已成功刪除');
+          // 重新載入列表
+          this.loadBooks();
+        },
+        error: (error) => {
+          console.error('刪除教材失敗:', error);
+          alert('刪除教材失敗: ' + error.message);
+        }
+      });
     }
   }
 
