@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookQueryService } from '../service/book-query.service';
@@ -16,12 +16,16 @@ type Book = BookResponse;
   templateUrl: './book-detail.component.html',
   styleUrl: './book-detail.component.scss'
 })
-export class BookDetailComponent implements OnInit {
+export class BookDetailComponent implements OnInit, OnDestroy {
   book: Book | null = null;
   isLoading = true;
   hotspots: Hotspot[] = [];
   selectedHotspot: Hotspot | null = null;
   imageLoaded = false;
+  
+  // 音訊播放相關
+  private currentAudio: HTMLAudioElement | null = null;
+  playingHotspotId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +39,11 @@ export class BookDetailComponent implements OnInit {
     if (id) {
       this.loadBook(+id);
     }
+  }
+
+  ngOnDestroy(): void {
+    // 組件銷毀時停止音訊播放
+    this.stopAudio();
   }
 
   loadBook(id: number): void {
@@ -98,15 +107,64 @@ export class BookDetailComponent implements OnInit {
   }
 
   playAudio(hotspot: Hotspot): void {
-    if (hotspot.audioUrl) {
-      console.log('播放音訊:', hotspot.audioUrl);
-      // 實際應該創建 Audio 對象並播放
-      // const audio = new Audio(hotspot.audioUrl);
-      // audio.play();
-      alert(`播放音訊: ${hotspot.label}\n音訊檔案: ${hotspot.audioUrl}`);
-    } else {
-      alert('此熱區沒有設置音訊');
+    if (!hotspot.audioUrl) {
+      console.warn('此熱區沒有設置音訊');
+      return;
     }
+
+    // 如果正在播放同一個熱區的音訊，則停止播放
+    if (this.playingHotspotId === hotspot.id) {
+      this.stopAudio();
+      return;
+    }
+
+    // 停止當前播放的音訊
+    this.stopAudio();
+
+    try {
+      // 創建新的音訊對象
+      this.currentAudio = new Audio(hotspot.audioUrl);
+      this.playingHotspotId = hotspot.id;
+
+      // 監聽播放結束事件
+      this.currentAudio.addEventListener('ended', () => {
+        this.playingHotspotId = null;
+        console.log('音訊播放完成');
+      });
+
+      // 監聽錯誤事件
+      this.currentAudio.addEventListener('error', (error) => {
+        console.error('音訊播放錯誤:', error);
+        alert('音訊播放失敗，請檢查音訊檔案是否存在');
+        this.playingHotspotId = null;
+      });
+
+      // 播放音訊
+      this.currentAudio.play().then(() => {
+        console.log('開始播放音訊:', hotspot.label);
+      }).catch((error) => {
+        console.error('播放失敗:', error);
+        alert('無法播放音訊，請稍後再試');
+        this.playingHotspotId = null;
+      });
+    } catch (error) {
+      console.error('創建音訊對象失敗:', error);
+      alert('音訊初始化失敗');
+      this.playingHotspotId = null;
+    }
+  }
+
+  stopAudio(): void {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio.currentTime = 0;
+      this.currentAudio = null;
+    }
+    this.playingHotspotId = null;
+  }
+
+  isPlaying(hotspotId: number): boolean {
+    return this.playingHotspotId === hotspotId;
   }
 
   getAudioName(audioUrl: string): string {

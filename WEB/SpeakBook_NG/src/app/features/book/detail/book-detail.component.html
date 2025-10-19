@@ -29,13 +29,22 @@
                     <!-- 熱區預覽 -->
                     <div *ngFor="let hotspot of hotspots" class="preview-hotspot" [style.left.px]="hotspot.x"
                         [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
-                        (click)="selectHotspot(hotspot)" [class.selected]="selectedHotspot?.id === hotspot.id">
+                        (click)="selectHotspot(hotspot)" [class.selected]="selectedHotspot?.id === hotspot.id"
+                        [class.playing]="isPlaying(hotspot.id)">
                         <span class="hotspot-label">{{ hotspot.label }}</span>
                         <button class="play-audio-btn" *ngIf="hotspot.audioUrl"
-                            (click)="playAudio(hotspot); $event.stopPropagation()" title="播放音訊">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                            (click)="playAudio(hotspot); $event.stopPropagation()" 
+                            [title]="isPlaying(hotspot.id) ? '停止播放' : '播放音訊'">
+                            <!-- 播放圖標 -->
+                            <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="currentColor">
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <!-- 暫停圖標 -->
+                            <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
                             </svg>
                         </button>
                     </div>
@@ -85,10 +94,19 @@
                             </span>
                         </div>
                         <button class="play-btn-inline" *ngIf="hotspot.audioUrl"
-                            (click)="playAudio(hotspot); $event.stopPropagation()" title="播放音訊">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            [class.playing]="isPlaying(hotspot.id)"
+                            (click)="playAudio(hotspot); $event.stopPropagation()" 
+                            [title]="isPlaying(hotspot.id) ? '停止播放' : '播放音訊'">
+                            <!-- 播放圖標 -->
+                            <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                 fill="currentColor">
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <!-- 暫停圖標 -->
+                            <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
                             </svg>
                         </button>
                     </div>
