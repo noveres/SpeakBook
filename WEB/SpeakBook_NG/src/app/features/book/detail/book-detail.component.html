@@ -5,7 +5,7 @@
 </div>
 
 <!-- 教材詳情 -->
-<div *ngIf="!isLoading && book" class="book-detail-container">
+<div *ngIf="!isLoading && book" class="book-detail-wrapper">
     <!-- 返回按鈕 -->
     <button class="back-button" (click)="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -15,23 +15,24 @@
         返回列表
     </button>
 
-    <div class="detail-content">
-        <!-- 左側：封面圖片與熱區 -->
-        <div class="cover-section">
-            <div class="image-container">
-                <img [src]="book.coverImageUrl || 'https://placehold.co/400x600/e0e0e0/757575?text=No+Image'"
-                    [alt]="book.title" [title]="book.title" (error)="onImageError($event)" (load)="onImageLoad($event)"
-                    class="cover-image" />
+    <div class="preview-container">
+        <!-- 左側：教材預覽 -->
+        <div class="preview-section">
+            <h3>教材預覽</h3>
 
-                <!-- 熱區顯示 -->
-                <div class="hotspots-overlay" *ngIf="imageLoaded && hotspots.length > 0">
-                    <div *ngFor="let hotspot of hotspots" class="hotspot"
-                        [class.selected]="selectedHotspot?.id === hotspot.id" [style.left.px]="hotspot.x"
+            <!-- 圖片預覽 -->
+            <div class="image-preview">
+                <div class="preview-image-wrapper">
+                    <img [src]="book.coverImageUrl || 'https://placehold.co/400x600/e0e0e0/757575?text=No+Image'"
+                        [alt]="book.title" (error)="onImageError($event)" (load)="onImageLoad($event)" />
+
+                    <!-- 熱區預覽 -->
+                    <div *ngFor="let hotspot of hotspots" class="preview-hotspot" [style.left.px]="hotspot.x"
                         [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
-                        (click)="selectHotspot(hotspot)" [title]="hotspot.label">
+                        (click)="selectHotspot(hotspot)" [class.selected]="selectedHotspot?.id === hotspot.id">
                         <span class="hotspot-label">{{ hotspot.label }}</span>
-                        <button class="play-audio-btn" *ngIf="hotspot.audioUrl" (click)="playAudio(hotspot); $event.stopPropagation()"
-                            title="播放音訊">
+                        <button class="play-audio-btn" *ngIf="hotspot.audioUrl"
+                            (click)="playAudio(hotspot); $event.stopPropagation()" title="播放音訊">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="currentColor">
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -39,107 +40,123 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="preview-stats">
+                    <div class="stat-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        <span>{{ book.title }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                        <span>{{ hotspots.length }} 個熱區</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- 熱區提示 -->
-            <div class="hotspot-hint" *ngIf="hotspots.length > 0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-                <span>點擊圖片上的熱區以查看詳細信息或播放音訊</span>
+            <!-- 熱區列表 -->
+            <div class="hotspots-summary" *ngIf="hotspots.length > 0">
+                <h4>熱區列表</h4>
+                <div class="hotspot-list">
+                    <div *ngFor="let hotspot of hotspots; let i = index" class="hotspot-summary-item"
+                        [class.active]="selectedHotspot?.id === hotspot.id" (click)="selectHotspot(hotspot)">
+                        <div class="hotspot-number">{{ i + 1 }}</div>
+                        <div class="hotspot-details">
+                            <strong>{{ hotspot.label }}</strong>
+                            <span class="hotspot-info">位置: ({{ hotspot.x }}, {{ hotspot.y }}) | 大小: {{ hotspot.width
+                                }} × {{ hotspot.height }}</span>
+                            <span class="hotspot-audio" *ngIf="hotspot.audioUrl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                音訊: {{ getAudioName(hotspot.audioUrl) }}
+                            </span>
+                        </div>
+                        <button class="play-btn-inline" *ngIf="hotspot.audioUrl"
+                            (click)="playAudio(hotspot); $event.stopPropagation()" title="播放音訊">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- 右側：教材資訊 -->
         <div class="info-section">
-            <h1 class="book-title">{{ book.title }}</h1>
+            <h3>教材資訊</h3>
 
-            <div class="book-meta">
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    <span class="meta-label">作者：</span>
-                    <span class="meta-value">{{ book.author }}</span>
-                </div>
-
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span class="meta-label">出版日期：</span>
-                    <span class="meta-value">{{ book.publishedAt | date:'yyyy-MM-dd' }}</span>
-                </div>
-
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-                    </svg>
-                    <span class="meta-label">頁數：</span>
-                    <span class="meta-value">{{ book.pages }} 頁</span>
-                </div>
-
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                    </svg>
-                    <span class="meta-label">分類：</span>
+            <div class="book-info-card">
+                <div class="info-header">
+                    <h2>{{ book.title }}</h2>
                     <span class="category-badge">{{ book.category }}</span>
                 </div>
-            </div>
 
-            <div class="description-section">
-                <h2>內容簡介</h2>
-                <p class="description-text">{{ book.description }}</p>
-            </div>
-
-            <!-- 熱區列表 -->
-            <div class="hotspots-section" *ngIf="hotspots.length > 0">
-                <h2>互動熱區</h2>
-                <div class="hotspots-list">
-                    <div *ngFor="let hotspot of hotspots" class="hotspot-item"
-                        [class.active]="selectedHotspot?.id === hotspot.id" (click)="selectHotspot(hotspot)">
-                        <div class="hotspot-item-header">
-                            <span class="hotspot-number">{{ hotspot.label }}</span>
-                            <button class="play-btn-small" *ngIf="hotspot.audioUrl"
-                                (click)="playAudio(hotspot); $event.stopPropagation()" title="播放音訊">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="currentColor">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="hotspot-item-info">
-                            <span>位置: ({{ hotspot.x }}, {{ hotspot.y }})</span>
-                            <span>大小: {{ hotspot.width }} × {{ hotspot.height }}</span>
-                        </div>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label>作者</label>
+                        <span>{{ book.author }}</span>
                     </div>
+                    <div class="info-item">
+                        <label>適用年齡</label>
+                        <span>{{ book.targetAge || '未填寫' }}</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-item">
+                        <label>難度等級</label>
+                        <span class="difficulty-badge" [class]="'difficulty-' + book.difficulty">{{
+                            book.difficulty || '未設定' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>頁數</label>
+                        <span>{{ book.pages || 0 }} 頁</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-item">
+                        <label>出版日期</label>
+                        <span>{{ book.publishedAt | date:'yyyy-MM-dd' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>熱區數量</label>
+                        <span>{{ hotspots.length }} 個</span>
+                    </div>
+                </div>
+
+                <div class="info-description">
+                    <label>描述</label>
+                    <p>{{ book.description || '尚未填寫描述' }}</p>
                 </div>
             </div>
 
             <!-- 操作按鈕 -->
             <div class="action-buttons">
-                <!-- <button class="btn btn-primary" (click)="onEdit()">
+                <button class="back-button-inline" (click)="goBack()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
                     </svg>
-                    編輯教材
-                </button> -->
-                <button class="btn btn-danger" (click)="onDelete()">
+                    返回列表
+                </button>
+
+                <button class="delete-button" (click)="onDelete()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="3 6 5 6 21 6"></polyline>
@@ -162,5 +179,5 @@
     </svg>
     <h2>找不到教材</h2>
     <p>您查找的教材不存在或已被刪除</p>
-    <button class="btn btn-primary" (click)="goBack()">返回列表</button>
+    <button class="btn-primary" (click)="goBack()">返回列表</button>
 </div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookQueryService } from '../service/book-query.service';
 import { BookResponse, HotspotResponse } from '../service/book-edit.service';
+import { getAudioNameByUrl } from '@core/constants/audio-data';
 
 // 使用後端返回的類型
 type Hotspot = HotspotResponse;
@@ -106,5 +107,10 @@ export class BookDetailComponent implements OnInit {
     } else {
       alert('此熱區沒有設置音訊');
     }
+  }
+
+  getAudioName(audioUrl: string): string {
+    // 使用共享的函數獲取音訊名稱
+    return getAudioNameByUrl(audioUrl);
   }
 }
