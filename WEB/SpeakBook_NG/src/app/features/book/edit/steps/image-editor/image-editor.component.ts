@@ -32,13 +32,8 @@ export class ImageEditorComponent implements OnChanges {
   currentHotspot: Hotspot | null = null;
   selectedHotspot: Hotspot | null = null;
 
-  // 圖片尺寸
-  originalImageWidth = 0;   // 原始圖片寬度
-  originalImageHeight = 0;  // 原始圖片高度
-  displayImageWidth = 0;    // 顯示圖片寬度
-  displayImageHeight = 0;   // 顯示圖片高度
-  scaleX = 1;               // X軸縮放比例
-  scaleY = 1;               // Y軸縮放比例
+  canvasWidth = 0;
+  canvasHeight = 0;
 
   // 音訊選項
   audioOptions: SelectOption[] = [];
@@ -68,24 +63,8 @@ export class ImageEditorComponent implements OnChanges {
 
   onImageLoad(event: Event): void {
     const img = event.target as HTMLImageElement;
-    
-    // 獲取原始圖片尺寸
-    this.originalImageWidth = img.naturalWidth;
-    this.originalImageHeight = img.naturalHeight;
-    
-    // 獲取顯示尺寸
-    this.displayImageWidth = img.clientWidth;
-    this.displayImageHeight = img.clientHeight;
-    
-    // 計算縮放比例
-    this.scaleX = this.displayImageWidth / this.originalImageWidth;
-    this.scaleY = this.displayImageHeight / this.originalImageHeight;
-    
-    console.log('圖片載入:', {
-      原始尺寸: `${this.originalImageWidth}x${this.originalImageHeight}`,
-      顯示尺寸: `${this.displayImageWidth}x${this.displayImageHeight}`,
-      縮放比例: `${this.scaleX.toFixed(2)}x${this.scaleY.toFixed(2)}`
-    });
+    this.canvasWidth = img.clientWidth;
+    this.canvasHeight = img.clientHeight;
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -130,23 +109,9 @@ export class ImageEditorComponent implements OnChanges {
           this.currentHotspot.y += this.currentHotspot.height;
           this.currentHotspot.height = Math.abs(this.currentHotspot.height);
         }
-        
-        // 將顯示座標轉換為原始圖片座標（用於儲存）
-        const originalHotspot: Hotspot = {
-          ...this.currentHotspot,
-          x: this.currentHotspot.x / this.scaleX,
-          y: this.currentHotspot.y / this.scaleY,
-          width: this.currentHotspot.width / this.scaleX,
-          height: this.currentHotspot.height / this.scaleY
-        };
 
-        this.hotspots.push(originalHotspot);
-        this.selectedHotspot = originalHotspot;
-        
-        console.log('保存熱區:', {
-          顯示座標: `x:${this.currentHotspot.x.toFixed(0)}, y:${this.currentHotspot.y.toFixed(0)}`,
-          原始座標: `x:${originalHotspot.x.toFixed(0)}, y:${originalHotspot.y.toFixed(0)}`
-        });
+        this.hotspots.push(this.currentHotspot);
+        this.selectedHotspot = this.currentHotspot;
       }
       this.currentHotspot = null;
     }
@@ -185,16 +150,6 @@ export class ImageEditorComponent implements OnChanges {
       this.hotspots = [];
       this.selectedHotspot = null;
     }
-  }
-
-  // 獲取縮放後的熱區樣式（用於顯示）
-  getScaledHotspotStyle(hotspot: Hotspot): any {
-    return {
-      left: `${hotspot.x * this.scaleX}px`,
-      top: `${hotspot.y * this.scaleY}px`,
-      width: `${hotspot.width * this.scaleX}px`,
-      height: `${hotspot.height * this.scaleY}px`
-    };
   }
 
   private generateId(): string {

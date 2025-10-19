@@ -26,8 +26,8 @@
                 <!-- 熱區顯示 -->
                 <div class="hotspots-overlay" *ngIf="imageLoaded && hotspots.length > 0">
                     <div *ngFor="let hotspot of hotspots" class="hotspot"
-                        [class.selected]="selectedHotspot?.id === hotspot.id"
-                        [ngStyle]="getScaledHotspotStyle(hotspot)"
+                        [class.selected]="selectedHotspot?.id === hotspot.id" [style.left.px]="hotspot.x"
+                        [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
                         (click)="selectHotspot(hotspot)" [title]="hotspot.label">
                         <span class="hotspot-label">{{ hotspot.label }}</span>
                         <button class="play-audio-btn" *ngIf="hotspot.audioUrl" (click)="playAudio(hotspot); $event.stopPropagation()"

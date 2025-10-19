@@ -48,8 +48,6 @@ export interface BookResponse {
   targetAge: string;
   difficulty: string;
   coverImageUrl: string;
-  imageWidth?: number;   // 原始圖片寬度
-  imageHeight?: number;  // 原始圖片高度
   status: 'draft' | 'published';
   createdAt: string;
   updatedAt?: string;

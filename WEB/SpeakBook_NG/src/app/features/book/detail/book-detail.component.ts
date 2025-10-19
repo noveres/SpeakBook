@@ -21,14 +21,6 @@ export class BookDetailComponent implements OnInit {
   hotspots: Hotspot[] = [];
   selectedHotspot: Hotspot | null = null;
   imageLoaded = false;
-  
-  // 圖片尺寸相關
-  originalImageWidth: number = 0;   // 原始圖片寬度
-  originalImageHeight: number = 0;  // 原始圖片高度
-  displayImageWidth: number = 0;    // 顯示圖片寬度
-  displayImageHeight: number = 0;   // 顯示圖片高度
-  scaleX: number = 1;               // X軸縮放比例
-  scaleY: number = 1;               // Y軸縮放比例
 
   constructor(
     private route: ActivatedRoute,
@@ -91,42 +83,12 @@ export class BookDetailComponent implements OnInit {
   }
 
   onImageLoad(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    
-    // 從圖片本身獲取原始尺寸 (naturalWidth/naturalHeight 是圖片的實際像素尺寸)
-    this.originalImageWidth = img.naturalWidth;
-    this.originalImageHeight = img.naturalHeight;
-    
-    // 獲取圖片實際顯示尺寸
-    this.displayImageWidth = img.clientWidth;
-    this.displayImageHeight = img.clientHeight;
-    
-    // 計算縮放比例
-    this.scaleX = this.displayImageWidth / this.originalImageWidth;
-    this.scaleY = this.displayImageHeight / this.originalImageHeight;
-    
     this.imageLoaded = true;
-    
-    console.log('圖片載入完成:', {
-      原始尺寸: `${this.originalImageWidth}x${this.originalImageHeight}`,
-      顯示尺寸: `${this.displayImageWidth}x${this.displayImageHeight}`,
-      縮放比例: `X:${this.scaleX.toFixed(2)}, Y:${this.scaleY.toFixed(2)}`
-    });
   }
 
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     img.src = 'https://placehold.co/300x400/e0e0e0/757575?text=No+Image';
-  }
-
-  // 計算縮放後的熱區位置
-  getScaledHotspotStyle(hotspot: Hotspot): any {
-    return {
-      left: `${hotspot.x * this.scaleX}px`,
-      top: `${hotspot.y * this.scaleY}px`,
-      width: `${hotspot.width * this.scaleX}px`,
-      height: `${hotspot.height * this.scaleY}px`
-    };
   }
 
   selectHotspot(hotspot: Hotspot): void {

@@ -81,17 +81,25 @@
   .cover-section {
     .image-container {
       position: relative;
-      width: 100%;
+      width: 600px;  // 統一容器寬度,與編輯器一致
+      height: 800px; // 統一容器高度 (3:4 比例)
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin: 0 auto; // 置中顯示
+      
+      @media (max-width: 968px) {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 4; // 手機版保持比例
+      }
     }
 
     .cover-image {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain; // 保持圖片比例,完整顯示在容器內
     }
 
     .hotspots-overlay {
