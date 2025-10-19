@@ -8,6 +8,7 @@ import { UploadImageComponent, UploadedImage } from '../../edit/steps/upload-ima
 import { ImageEditorComponent, Hotspot } from '../../edit/steps/image-editor/image-editor.component';
 import { BookSettingsComponent, BookSettings } from '../../edit/steps/book-settings/book-settings.component';
 import { BookPreviewComponent } from '../../edit/steps/book-preview/book-preview.component';
+import { BookService } from '../../service/book.service';
 
 @Component({
   selector: 'app-edit',
@@ -39,14 +40,15 @@ export class EditComponent implements OnInit {
     targetAge: '3-6歲',
     difficulty: '簡單'
   };
-  
+
   isEditMode = false;
   bookId: number | null = null;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private bookService: BookService
+  ) { }
 
   ngOnInit(): void {
     // 檢查是否為編輯模式
@@ -62,7 +64,7 @@ export class EditComponent implements OnInit {
     // 這裡應該從後端 API 加載教材數據
     // 模擬數據加載
     console.log('加載教材數據，ID:', id);
-    
+
     // 模擬已有的教材數據
     this.bookSettings = {
       title: '小紅帽',
@@ -91,38 +93,44 @@ export class EditComponent implements OnInit {
   }
 
   onPublish(): void {
-    // 收集所有數據
-    const bookData = {
-      image: this.selectedImage,
-      hotspots: this.hotspots,
-      settings: this.bookSettings,
-      publishDate: new Date().toISOString()
-    };
+    console.log('正在發布教材，請稍候...');
 
-    console.log('發布教材:', bookData);
-    
-    // 模擬發布過程
-    setTimeout(() => {
-      alert('教材發布成功！');
-      this.router.navigate(['/book']);
-    }, 1500);
+    // 使用統一的 BookService 處理發布流程
+    this.bookService.publishBook(
+      this.selectedImage!,
+      this.hotspots,
+      this.bookSettings
+    ).subscribe({
+      next: (response) => {
+        console.log('教材發布成功:', response);
+        alert('教材發布成功！');
+        this.router.navigate(['/book']);
+      },
+      error: (error) => {
+        console.error('發布失敗:', error);
+        alert('發布失敗：' + error.message);
+      }
+    });
   }
 
   onSaveDraft(): void {
-    // 收集所有數據
-    const draftData = {
-      image: this.selectedImage,
-      hotspots: this.hotspots,
-      settings: this.bookSettings,
-      savedDate: new Date().toISOString()
-    };
+    console.log('正在儲存草稿，請稍候...');
 
-    console.log('儲存草稿:', draftData);
-    
-    // 模擬儲存過程
-    setTimeout(() => {
-      alert('草稿儲存成功！');
-      this.router.navigate(['/book']);
-    }, 1000);
+    // 使用統一的 BookService 處理草稿儲存
+    this.bookService.saveDraft(
+      this.selectedImage,
+      this.hotspots,
+      this.bookSettings
+    ).subscribe({
+      next: (response) => {
+        console.log('草稿儲存成功:', response);
+        alert('草稿儲存成功！');
+        this.router.navigate(['/book']);
+      },
+      error: (error) => {
+        console.error('儲存失敗:', error);
+        alert('儲存失敗：' + error.message);
+      }
+    });
   }
 }

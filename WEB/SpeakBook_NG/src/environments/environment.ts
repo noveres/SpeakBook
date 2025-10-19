@@ -2,6 +2,7 @@ export const environment = {
   production: false,
   currentVersion: "0.13.13",
   successAlertTimeout: 1.5,
+  apiBaseUrl: 'http://localhost:9527',
   api: {
     Account: {
       Login: {
