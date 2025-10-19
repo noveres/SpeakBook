@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pagination',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.scss'
 })
@@ -12,7 +13,10 @@ export class PaginationComponent {
   @Input() totalPages: number = 1;
   @Input() totalItems: number = 0;
   @Input() itemsPerPage: number = 10;
+  @Input() pageSizeOptions: number[] = [5, 10, 20, 50, 100];
+  @Input() showPageSizeSelector: boolean = true;  // 是否顯示每頁筆數選擇器
   @Output() pageChange = new EventEmitter<number>();
+  @Output() pageSizeChange = new EventEmitter<number>();
 
   get pages(): number[] {
     const pages: number[] = [];
@@ -70,5 +74,9 @@ export class PaginationComponent {
 
   goToNextPage(): void {
     this.goToPage(this.currentPage + 1);
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.pageSizeChange.emit(newSize);
   }
 }

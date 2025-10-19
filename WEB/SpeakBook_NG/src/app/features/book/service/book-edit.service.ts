@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { PageRequest, PageResponse } from '@core/models';
 
 // 請求接口
 export interface CreateBookRequest {
@@ -160,4 +161,5 @@ export class BookEditService {
         })
       );
   }
+
 }

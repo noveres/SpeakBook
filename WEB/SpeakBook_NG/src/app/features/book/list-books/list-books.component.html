@@ -9,7 +9,7 @@
     <div *ngFor="let book of books" class="book-card" (click)="onBookClick(book)">
         <!-- 教材封面 -->
         <div class="book-cover">
-            <img [src]="book.coverImage || 'https://placehold.co/300x400/e0e0e0/757575?text=No+Image'"
+            <img [src]="book.coverImageUrl || 'https://placehold.co/300x400/e0e0e0/757575?text=No+Image'"
                 [alt]="book.title" (error)="onImageError($event)" />
             <div class="book-overlay">
                 <button class="view-button" (click)="onViewDetails($event, book)">查看詳情</button>
@@ -27,7 +27,7 @@
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                {{ book.author }}
+                {{ book.author || '未填寫' }}
             </p>
             <p class="book-description">{{ book.description }}</p>
 
@@ -48,7 +48,7 @@
                         <line x1="8" y1="2" x2="8" y2="6"></line>
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
-                    {{ book.publishDate }}
+                    {{ book.publishedAt | date:'yyyy-MM-dd' }}
                 </span>
             </div>
 

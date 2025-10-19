@@ -1,15 +1,20 @@
 <!-- 搜尋框 -->
-
-<!-- <app-search-box placeholder="搜尋教材名稱..." [(searchValue)]="searchValue" (search)="onSearch($event)">
+<app-search-box placeholder="搜尋教材名稱..." (search)="onSearch($event)">
 </app-search-box>
- -->
 
 <!-- 教材列表 -->
-<app-list-books></app-list-books>
+<app-list-books [currentPage]="currentPage" [pageSize]="itemsPerPage" [searchKeyword]="searchKeyword"
+    (pageDataLoaded)="onPageDataLoaded($event)">
+</app-list-books>
 
-<!-- 分頁器 -->
-<!-- <div class="pagination-section">
-    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalItems]="totalItems"
-        [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)">
-    </app-pagination>
-</div> -->
+<!-- 分頁器 (包含每頁顯示筆數控制) -->
+<app-pagination 
+    [currentPage]="currentPage" 
+    [totalPages]="totalPages" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    [pageSizeOptions]="pageSizeOptions"
+    [showPageSizeSelector]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)">
+</app-pagination>

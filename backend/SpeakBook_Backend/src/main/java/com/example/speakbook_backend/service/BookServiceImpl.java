@@ -2,10 +2,14 @@ package com.example.speakbook_backend.service;
 
 import com.example.speakbook_backend.converter.BookConverter;
 import com.example.speakbook_backend.dto.BookDTO;
+import com.example.speakbook_backend.dto.PageRequest;
+import com.example.speakbook_backend.dto.PageResponse;
 import com.example.speakbook_backend.entity.Book;
 import com.example.speakbook_backend.repository.BookRepository;
 import com.example.speakbook_backend.repository.HotspotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,6 +129,51 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new RuntimeException("教材不存在，ID: " + id));
 
         bookRepository.delete(book);
+    }
+
+    @Override
+    public PageResponse<BookDTO> getPublishedBooksWithPagination(PageRequest pageRequest) {
+        // 建立排序規則
+        Sort sort = Sort.by(
+            "DESC".equalsIgnoreCase(pageRequest.getSortDirection()) 
+                ? Sort.Direction.DESC 
+                : Sort.Direction.ASC,
+            pageRequest.getSortBy() != null ? pageRequest.getSortBy() : "createdAt"
+        );
+
+        // 建立 Spring 分頁請求
+        org.springframework.data.domain.PageRequest springPageRequest = org.springframework.data.domain.PageRequest.of(
+            pageRequest.getPage() - 1, // Spring 從 0 開始
+            pageRequest.getPageSize(),
+            sort
+        );
+
+        // 執行查詢
+        Page<Book> bookPage;
+        if (pageRequest.getSearchKeyword() != null && !pageRequest.getSearchKeyword().trim().isEmpty()) {
+            // 有搜尋關鍵字
+            bookPage = bookRepository.findByStatusAndKeyword(
+                "published", 
+                pageRequest.getSearchKeyword().trim(), 
+                springPageRequest
+            );
+        } else {
+            // 無搜尋關鍵字
+            bookPage = bookRepository.findByStatus("published", springPageRequest);
+        }
+
+        // 轉換為 DTO
+        List<BookDTO> bookDTOs = bookPage.getContent().stream()
+                .map(BookConverter::convertToDTO)
+                .collect(Collectors.toList());
+
+        // 建立分頁響應
+        return new PageResponse<>(
+            bookDTOs,
+            pageRequest.getPage(),
+            pageRequest.getPageSize(),
+            bookPage.getTotalElements()
+        );
     }
 
     /**

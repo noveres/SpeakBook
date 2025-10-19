@@ -1,4 +1,12 @@
-<div class="pagination-container" *ngIf="totalPages > 1">
+<div class="pagination-container" *ngIf="totalPages > 0">
+  <!-- 每頁顯示筆數選擇器 -->
+  <div class="page-size-selector" *ngIf="showPageSizeSelector">
+    <label for="pageSize">每頁顯示:</label>
+    <select id="pageSize" [(ngModel)]="itemsPerPage" (ngModelChange)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }} 筆</option>
+    </select>
+  </div>
+
   <div class="pagination-info">
     <span>顯示 {{ startItem }} - {{ endItem }} 筆，共 {{ totalItems }} 筆</span>
   </div>

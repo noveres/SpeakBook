@@ -1,6 +1,8 @@
 package com.example.speakbook_backend.service;
 
 import com.example.speakbook_backend.dto.BookDTO;
+import com.example.speakbook_backend.dto.PageRequest;
+import com.example.speakbook_backend.dto.PageResponse;
 
 import java.util.List;
 
@@ -40,4 +42,9 @@ public interface BookService {
      * 刪除教材
      */
     void deleteBook(Long id);
+
+    /**
+     * 分頁查詢已發布的教材
+     */
+    PageResponse<BookDTO> getPublishedBooksWithPagination(PageRequest pageRequest);
 }

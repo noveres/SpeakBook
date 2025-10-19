@@ -2,6 +2,8 @@ package com.example.speakbook_backend.controller;
 
 import com.example.speakbook_backend.Response;
 import com.example.speakbook_backend.dto.BookDTO;
+import com.example.speakbook_backend.dto.PageRequest;
+import com.example.speakbook_backend.dto.PageResponse;
 import com.example.speakbook_backend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -122,6 +124,37 @@ public class BookController {
             return Response.newFail(e.getMessage());
         } catch (Exception e) {
             return Response.newFail("刪除教材失敗：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 分頁查詢已發布的教材
+     * GET /api/books/page
+     * @param page 頁碼（從1開始）
+     * @param pageSize 每頁大小
+     * @param sortBy 排序欄位
+     * @param sortDirection 排序方向（ASC/DESC）
+     * @param searchKeyword 搜尋關鍵字
+     */
+    @GetMapping("/page")
+    public Response<PageResponse<BookDTO>> getBooksWithPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortDirection,
+            @RequestParam(required = false) String searchKeyword) {
+        try {
+            PageRequest pageRequest = new PageRequest();
+            pageRequest.setPage(page);
+            pageRequest.setPageSize(pageSize);
+            pageRequest.setSortBy(sortBy);
+            pageRequest.setSortDirection(sortDirection);
+            pageRequest.setSearchKeyword(searchKeyword);
+
+            PageResponse<BookDTO> result = bookService.getPublishedBooksWithPagination(pageRequest);
+            return Response.newSuccess(result);
+        } catch (Exception e) {
+            return Response.newFail("獲取教材列表失敗：" + e.getMessage());
         }
     }
 }

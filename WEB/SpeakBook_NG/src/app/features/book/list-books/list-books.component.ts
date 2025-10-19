@@ -1,17 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { BookResponse } from '../service/book-edit.service';
+import { BookQueryService } from '../service/book-query.service';
+import { PageRequest, PageResponse } from '@core/models';
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  coverImage: string;
-  description: string;
-  publishDate: string;
-  pages: number;
-  category: string;
-}
 
 @Component({
   selector: 'app-list-books',
@@ -19,118 +12,87 @@ interface Book {
   templateUrl: './list-books.component.html',
   styleUrl: './list-books.component.scss'
 })
-export class ListBooksComponent implements OnInit {
-  books: Book[] = [];
+export class ListBooksComponent implements OnInit, OnChanges {
+  @Input() currentPage: number = 1;
+  @Input() pageSize: number = 10;
+  @Input() searchKeyword: string = '';
+  @Output() pageDataLoaded = new EventEmitter<PageResponse<BookResponse>>();
+
+  books: BookResponse[] = [];
   isLoading = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private bookQueryService: BookQueryService
+  ) {}
 
   ngOnInit(): void {
     this.loadBooks();
   }
 
-  loadBooks(): void {
-    // 模擬教材數據
-    this.books = [
-      {
-        id: 1,
-        title: '小紅帽',
-        author: '格林兄弟',
-        coverImage: 'https://picsum.photos/seed/book1/300/400',
-        description: '一個關於小女孩與大野狼的經典童話故事',
-        publishDate: '2024-01-15',
-        pages: 32,
-        category: '童話故事'
-      },
-      {
-        id: 2,
-        title: '三隻小豬',
-        author: '經典童話',
-        coverImage: 'https://picsum.photos/seed/book2/300/400',
-        description: '三隻小豬建造房子抵抗大野狼的故事',
-        publishDate: '2024-02-20',
-        pages: 28,
-        category: '童話故事'
-      },
-      {
-        id: 3,
-        title: '白雪公主',
-        author: '格林兄弟',
-        coverImage: 'https://picsum.photos/seed/book3/300/400',
-        description: '美麗的公主與七個小矮人的冒險故事',
-        publishDate: '2024-03-10',
-        pages: 40,
-        category: '童話故事'
-      },
-      {
-        id: 4,
-        title: '灰姑娘',
-        author: '夏爾·佩羅',
-        coverImage: 'https://picsum.photos/seed/book4/300/400',
-        description: '善良的女孩在仙女教母幫助下參加舞會的故事',
-        publishDate: '2024-04-05',
-        pages: 36,
-        category: '童話故事'
-      },
-      {
-        id: 5,
-        title: '醜小鴨',
-        author: '安徒生',
-        coverImage: 'https://picsum.photos/seed/book5/300/400',
-        description: '一隻醜小鴨成長為美麗天鵝的勵志故事',
-        publishDate: '2024-05-12',
-        pages: 30,
-        category: '童話故事'
-      },
-      {
-        id: 6,
-        title: '小美人魚',
-        author: '安徒生',
-        coverImage: 'https://picsum.photos/seed/book6/300/400',
-        description: '美人魚公主為了愛情來到陸地的感人故事',
-        publishDate: '2024-06-18',
-        pages: 45,
-        category: '童話故事'
-      }
-    ];
+  ngOnChanges(changes: SimpleChanges): void {
+    // 當分頁、搜尋參數或每頁筆數改變時重新載入
+    if (changes['currentPage'] || changes['searchKeyword'] || changes['pageSize']) {
+      this.loadBooks();
+    }
   }
 
-  onBookClick(book: Book): void {
+  loadBooks(): void {
+    this.isLoading = true;
+
+    const pageRequest: PageRequest = {
+      page: this.currentPage,
+      pageSize: this.pageSize,
+      sortBy: 'createdAt',
+      sortDirection: 'DESC',
+      searchKeyword: this.searchKeyword
+    };
+
+    this.bookQueryService.getBooksWithPagination(pageRequest).subscribe({
+      next: (response: PageResponse<BookResponse>) => {
+        this.books = response.content;
+        this.pageDataLoaded.emit(response);
+        this.isLoading = false;
+      },
+      error: (error: Error) => {
+        console.error('載入教材失敗:', error);
+        alert('載入教材失敗: ' + error.message);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onBookClick(book: BookResponse): void {
     console.log('點擊教材:', book);
     // 這裡可以導航到教材詳情頁面
   }
 
   // 查看詳情
-  onViewDetails(event: Event, book: Book): void {
-    event.stopPropagation(); // 阻止事件冒泡
+  onViewDetails(event: Event, book: BookResponse): void {
+    event.stopPropagation();
     console.log('查看詳情:', book);
-    // 導航到教材詳情頁面
     this.router.navigate(['/book', book.id]);
   }
 
   // 編輯教材
-  onEdit(event: Event, book: Book): void {
-    event.stopPropagation(); // 阻止事件冒泡
+  onEdit(event: Event, book: BookResponse): void {
+    event.stopPropagation();
     console.log('編輯教材:', book);
-    // 導航到編輯頁面
     this.router.navigate(['/book/edit', book.id]);
   }
 
   // 刪除教材
-  onDelete(event: Event, book: Book): void {
-    event.stopPropagation(); // 阻止事件冒泡
+  onDelete(event: Event, book: BookResponse): void {
+    event.stopPropagation();
     
-    // 確認刪除
     if (confirm(`確定要刪除教材「${book.title}」嗎？`)) {
       console.log('刪除教材:', book);
       
-      // 從列表中移除
+      // TODO: 調用後端 API 刪除教材
+      // this.bookEditService.deleteBook(book.id).subscribe(...);
+      
+      // 暫時從列表中移除
       this.books = this.books.filter(b => b.id !== book.id);
-      
-      // 這裡應該調用後端 API 刪除教材
-      // this.bookService.deleteBook(book.id).subscribe(...);
-      
-      // 顯示成功消息（可以使用 snackbar 或 toast）
       alert('教材已成功刪除');
     }
   }
