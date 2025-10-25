@@ -38,6 +38,7 @@
     padding: 1rem;
     pointer-events: none !important; // 禁止點擊
     cursor: default !important; // 移除指針樣式
+    background-color: transparent !important; // 移除背景色
 
     .mat-step-icon {
       background-color: #bdc3c7;
@@ -67,6 +68,14 @@
       background-color: transparent !important;
     }
 
+    // 移除焦點和激活狀態的背景
+    &:focus,
+    &:active,
+    &.cdk-keyboard-focused,
+    &.cdk-program-focused {
+      background-color: transparent !important;
+    }
+
     // 確保所有子元素也不可點擊
     * {
       pointer-events: none !important;
@@ -74,12 +83,37 @@
     }
   }
 
+  // 移除步驟之間的連接線背景
+  .mat-stepper-horizontal-line {
+    border-top-color: #e0e0e0 !important;
+    margin: 0 -16px !important;
+  }
+
+  // 移除步驟頭部容器的背景
   .mat-horizontal-stepper-header-container {
     margin-bottom: 2rem;
+    background-color: transparent !important;
   }
 
   .mat-horizontal-content-container {
     padding: 0;
+    background-color: transparent !important;
+  }
+
+  // 移除所有可能的灰色背景
+  .mat-step-header-ripple {
+    display: none !important;
+  }
+
+  // 移除步驟頭部的所有狀態背景
+  .mat-step-header[aria-selected="true"],
+  .mat-step-header.mat-step-header-selected {
+    background-color: transparent !important;
+  }
+
+  // 移除Material的ripple效果
+  .mat-ripple-element {
+    display: none !important;
   }
 }
 
