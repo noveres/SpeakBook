@@ -42,6 +42,7 @@ export class SidebarNAVmenuDropDownComponent implements OnInit, OnDestroy {
   // 側邊欄相關
   isSidebarActive = true;
   isLoginPage = false;
+  isPageReady = false; // 頁面準備狀態，避免閃爍
 
   // 路由導航加載狀態
   isNavigating = false;
@@ -88,6 +89,7 @@ export class SidebarNAVmenuDropDownComponent implements OnInit, OnDestroy {
         // 判斷是否為登錄頁面或403頁面（需要隱藏側邊欄）
         const url = event.url.replace(/[#?].*$/, '').trim();
         this.isLoginPage = url === '/login' || url === '/403';
+        this.isPageReady = true; // 路由確定後，標記頁面準備完成
 
         // 每次路由變化時更新用戶信息
         this.updateUserInfo();

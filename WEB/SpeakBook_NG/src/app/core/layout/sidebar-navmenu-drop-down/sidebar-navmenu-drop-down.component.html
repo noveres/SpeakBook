@@ -1,4 +1,6 @@
-@if (isLoginPage) {
+@if (!isPageReady) {
+<!-- 等待路由狀態確定，避免閃爍 -->
+} @else if (isLoginPage) {
 <router-outlet></router-outlet>
 } @else {
 <div class="app-container" [class.sidebar-collapsed]="!isSidebarActive">

@@ -19,23 +19,36 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(to bottom right, #f3f3f3, #e9e9e9);
+    justify-content: flex-end;
+    // background: linear-gradient(to bottom right, #f3f3f3, #e9e9e9);
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg') center/cover;
 }
 
 /* Login box */
 .login-box {
     width: 420px;
+    height: 100%;
     padding: 32px;
     border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.9);
-
+    background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
+
+    /* 使用彈性布局讓內容居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.login-box:hover {
+.login-box:hover,
+.login-box:focus-within {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.login-content {
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Logo */

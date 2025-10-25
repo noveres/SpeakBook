@@ -1,46 +1,48 @@
 <div class="page-login">
     <div class="login-box">
-        <!-- Logo placeholder -->
-        <div class="logo">
-            <div class="logo-placeholder">LOGO</div>
-        </div>
-
-        <!-- Error message -->
-        <div *ngIf="errorMessage" class="error-message">
-            {{ errorMessage }}
-        </div>
-
-        <!-- Password login form -->
-        <form [formGroup]="loginForm" (ngSubmit)="onPasswordLogin()">
-            <div class="form-group">
-                <input type="text" formControlName="username" placeholder="管理員帳號" />
+        <div class="login-content">
+            <!-- Logo placeholder -->
+            <div class="logo">
+                <div class="logo-placeholder">LOGO</div>
             </div>
 
-            <div class="form-group">
-                <div class="input-group password-group">
-                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="密碼" />
-                    <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
-                        [attr.aria-label]="showPassword ? '隱藏密碼' : '顯示密碼'" [attr.title]="showPassword ? '隱藏密碼' : '顯示密碼'"
-                        aria-pressed="false">
-                        <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <line x1="3" y1="3" x2="21" y2="21"></line>
-                        </svg>
-                        <span class="visually-hidden">{{ showPassword ? '隱藏密碼' : '顯示密碼' }}</span>
-                    </button>
+            <!-- Error message -->
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
+
+            <!-- Password login form -->
+            <form [formGroup]="loginForm" (ngSubmit)="onPasswordLogin()">
+                <div class="form-group">
+                    <input type="text" formControlName="username" placeholder="管理員帳號" />
                 </div>
-            </div>
 
-            <!-- <label class="agreement">
+                <div class="form-group">
+                    <div class="input-group password-group">
+                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                            placeholder="密碼" />
+                        <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
+                            [attr.aria-label]="showPassword ? '隱藏密碼' : '顯示密碼'"
+                            [attr.title]="showPassword ? '隱藏密碼' : '顯示密碼'" aria-pressed="false">
+                            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <line x1="3" y1="3" x2="21" y2="21"></line>
+                            </svg>
+                            <span class="visually-hidden">{{ showPassword ? '隱藏密碼' : '顯示密碼' }}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- <label class="agreement">
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="agreement-checkbox" [checked]="keepLoggedIn"
                         (change)="onKeepLoggedInChange($event)">
@@ -49,16 +51,17 @@
                 保持登入
             </label> -->
 
-            <button type="submit" class="login-button" [disabled]="isLoading">
-                <span *ngIf="!isLoading">登入</span>
-                <span *ngIf="isLoading">登入中...</span>
-            </button>
-        </form>
+                <button type="submit" class="login-button" [disabled]="isLoading">
+                    <span *ngIf="!isLoading">登入</span>
+                    <span *ngIf="isLoading">登入中...</span>
+                </button>
+            </form>
 
-        <!-- Footer links -->
-        <div class="footer-links">
+            <!-- Footer links -->
+            <!-- <div class="footer-links">
             <a href="javascript:;">忘記密碼</a>
             <a href="javascript:;">遇到問題</a>
+        </div> -->
         </div>
     </div>
 </div>
