@@ -49,6 +49,39 @@ public class UploadController {
     }
 
     /**
+     * 上傳音訊到 Catbox.moe
+     * POST /api/upload/audio
+     */
+    @PostMapping("/audio")
+    public Response<UploadResponse> uploadAudio(@RequestParam("file") MultipartFile file) {
+        try {
+            // 驗證檔案
+            if (file.isEmpty()) {
+                return Response.newFail("請選擇要上傳的音訊");
+            }
+
+            // 驗證檔案類型
+            String contentType = file.getContentType();
+            if (contentType == null || !isValidAudioType(contentType)) {
+                return Response.newFail("不支援的音訊格式，請上傳 MP3、WAV、OGG 或 M4A 格式");
+            }
+
+            // 驗證檔案大小（50MB）
+            long maxSize = 50 * 1024 * 1024; // 50MB
+            if (file.getSize() > maxSize) {
+                return Response.newFail("音訊檔案過大，請上傳小於 50MB 的音訊");
+            }
+
+            // 上傳到 Catbox.moe
+            UploadResponse uploadResponse = uploadService.uploadToCatbox(file);
+            return Response.newSuccess(uploadResponse);
+
+        } catch (Exception e) {
+            return Response.newFail("音訊上傳失敗：" + e.getMessage());
+        }
+    }
+
+    /**
      * 驗證圖片類型
      */
     private boolean isValidImageType(String contentType) {
@@ -57,5 +90,19 @@ public class UploadController {
                contentType.equals("image/png") ||
                contentType.equals("image/gif") ||
                contentType.equals("image/webp");
+    }
+
+    /**
+     * 驗證音訊類型
+     */
+    private boolean isValidAudioType(String contentType) {
+        return contentType.equals("audio/mpeg") ||      // MP3
+               contentType.equals("audio/mp3") ||       // MP3
+               contentType.equals("audio/wav") ||       // WAV
+               contentType.equals("audio/wave") ||      // WAV
+               contentType.equals("audio/x-wav") ||     // WAV
+               contentType.equals("audio/ogg") ||       // OGG
+               contentType.equals("audio/x-m4a") ||     // M4A
+               contentType.equals("audio/mp4");         // M4A
     }
 }
