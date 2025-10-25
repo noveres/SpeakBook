@@ -8,14 +8,12 @@ import { PageRequest, PageResponse } from '@core/models';
 // 音訊響應接口
 export interface AudioResponse {
   id: number;
-  fileName: string;
-  originalFileName: string;
-  fileUrl: string;
-  fileSize: number;
-  duration?: number;
-  mimeType: string;
-  uploadedAt: string;
-  uploadedBy?: string;
+  name: string;           // 音訊名稱
+  url: string;            // 音訊 URL
+  fileSize: number;       // 檔案大小（字節）
+  duration?: number;      // 時長（秒）
+  category?: string;      // 分類
+  createdAt: string;      // 創建時間
 }
 
 // API 響應接口
@@ -54,7 +52,7 @@ export class AudioService {
       params = params.set('sort', pageRequest.sortBy);
     }
 
-    return this.http.get<ApiResponse<PageResponse<AudioResponse>>>(this.apiUrl, { params })
+    return this.http.get<ApiResponse<PageResponse<AudioResponse>>>(`${this.apiUrl}/page`, { params })
       .pipe(
         map(response => {
           if (!response.success || !response.data) {

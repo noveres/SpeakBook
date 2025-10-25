@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AudioService, AudioResponse } from '../service/audio.service';
 import { PageRequest, PageResponse } from '@core/models';
+import { PaginationComponent } from '@shared/components/ui';
 
 @Component({
   selector: 'app-list-audios',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './list-audios.component.html',
   styleUrl: './list-audios.component.scss'
 })
@@ -18,10 +19,13 @@ export class ListAudiosComponent implements OnInit {
   searchKeyword = '';
   
   // 分頁相關
-  currentPage = 0;
+  currentPage = 1;  // 改為從 1 開始
   pageSize = 10;
   totalElements = 0;
   totalPages = 0;
+  
+  // 每頁顯示筆數選項
+  pageSizeOptions: number[] = [5, 10, 20, 50, 100];
 
   // 上傳相關
   isUploading = false;
@@ -50,7 +54,7 @@ export class ListAudiosComponent implements OnInit {
     const pageRequest: PageRequest = {
       page: this.currentPage,
       pageSize: this.pageSize,
-      sortBy: 'uploadedAt,desc'
+      sortBy: 'createdAt,desc'
     };
 
     this.audioService.getAudios(pageRequest, this.searchKeyword).subscribe({
@@ -69,18 +73,25 @@ export class ListAudiosComponent implements OnInit {
   }
 
   onSearch(): void {
-    this.currentPage = 0;
+    this.currentPage = 1;
     this.loadAudios();
   }
 
   onClearSearch(): void {
     this.searchKeyword = '';
-    this.currentPage = 0;
+    this.currentPage = 1;
     this.loadAudios();
   }
 
   onPageChange(page: number): void {
     this.currentPage = page;
+    this.loadAudios();
+  }
+
+  onPageSizeChange(newPageSize: number): void {
+    this.pageSize = newPageSize;
+    // 切換每頁筆數後重置到第一頁
+    this.currentPage = 1;
     this.loadAudios();
   }
 
@@ -113,7 +124,8 @@ export class ListAudiosComponent implements OnInit {
     this.isUploading = true;
     this.uploadProgress = 0;
 
-    this.audioService.uploadAudio(this.selectedFile).subscribe({
+    // 使用 uploadAndSaveAudio 方法:後端會上傳到 Catbox 並保存到數據庫
+    this.audioService.uploadAndSaveAudio(this.selectedFile).subscribe({
       next: (response) => {
         console.log('上傳成功:', response);
         alert('音訊上傳成功');
@@ -131,7 +143,7 @@ export class ListAudiosComponent implements OnInit {
   }
 
   onDelete(audio: AudioResponse): void {
-    if (confirm(`確定要刪除音訊「${audio.originalFileName}」嗎？`)) {
+    if (confirm(`確定要刪除音訊「${audio.name}」嗎？`)) {
       this.audioService.deleteAudio(audio.id).subscribe({
         next: () => {
           alert('音訊已成功刪除');
@@ -156,7 +168,7 @@ export class ListAudiosComponent implements OnInit {
     this.stopAudio();
 
     try {
-      this.currentAudio = new Audio(audio.fileUrl);
+      this.currentAudio = new Audio(audio.url);
       this.playingAudioId = audio.id;
 
       this.currentAudio.addEventListener('ended', () => {
@@ -170,7 +182,7 @@ export class ListAudiosComponent implements OnInit {
       });
 
       this.currentAudio.play().then(() => {
-        console.log('開始播放音訊:', audio.originalFileName);
+        console.log('開始播放音訊:', audio.name);
       }).catch((error) => {
         console.error('播放失敗:', error);
         alert('無法播放音訊');
@@ -215,13 +227,5 @@ export class ListAudiosComponent implements OnInit {
 
   get hasAudios(): boolean {
     return this.audios && this.audios.length > 0;
-  }
-
-  get hasPrevPage(): boolean {
-    return this.currentPage > 0;
-  }
-
-  get hasNextPage(): boolean {
-    return this.currentPage < this.totalPages - 1;
   }
 }

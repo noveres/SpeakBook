@@ -60,7 +60,7 @@
             </div>
 
             <div class="audio-info">
-                <h3 class="audio-name">{{ audio.originalFileName }}</h3>
+                <h3 class="audio-name">{{ audio.name }}</h3>
                 <div class="audio-meta">
                     <span class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -87,13 +87,13 @@
                             <line x1="8" y1="2" x2="8" y2="6"></line>
                             <line x1="3" y1="10" x2="21" y2="10"></line>
                         </svg>
-                        {{ audio.uploadedAt | date:'yyyy-MM-dd HH:mm' }}
+                        {{ audio.createdAt | date:'yyyy-MM-dd HH:mm' }}
                     </span>
                 </div>
                 <div class="audio-url">
                     <span class="url-label">URL:</span>
-                    <span class="url-text">{{ audio.fileUrl }}</span>
-                    <button (click)="copyToClipboard(audio.fileUrl)" class="copy-btn" title="複製 URL">
+                    <span class="url-text">{{ audio.url }}</span>
+                    <button (click)="copyToClipboard(audio.url)" class="copy-btn" title="複製 URL">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -141,22 +141,16 @@
         <p>{{ searchKeyword ? '請嘗試其他搜尋關鍵字' : '點擊上方「上傳音訊」按鈕開始上傳' }}</p>
     </div>
 
-    <!-- 分頁 -->
-    <div *ngIf="!isLoading && hasAudios && totalPages > 1" class="pagination">
-        <button (click)="onPageChange(currentPage - 1)" [disabled]="!hasPrevPage" class="page-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            上一頁
-        </button>
-        <span class="page-info">第 {{ currentPage + 1 }} 頁，共 {{ totalPages }} 頁（共 {{ totalElements }} 筆）</span>
-        <button (click)="onPageChange(currentPage + 1)" [disabled]="!hasNextPage" class="page-btn">
-            下一頁
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-        </button>
-    </div>
+    <!-- 分頁器 (包含每頁顯示筆數控制) -->
+    <app-pagination 
+        *ngIf="!isLoading && hasAudios"
+        [currentPage]="currentPage" 
+        [totalPages]="totalPages" 
+        [totalItems]="totalElements"
+        [itemsPerPage]="pageSize" 
+        [pageSizeOptions]="pageSizeOptions"
+        [showPageSizeSelector]="true"
+        (pageChange)="onPageChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
 </div>
