@@ -35,6 +35,8 @@ export class ListAudiosComponent implements OnInit {
   // 播放相關
   currentAudio: HTMLAudioElement | null = null;
   playingAudioId: number | null = null;
+  audioCurrentTime: number = 0;
+  audioDuration: number = 0;
 
   constructor(
     private audioService: AudioService,
@@ -171,14 +173,30 @@ export class ListAudiosComponent implements OnInit {
       this.currentAudio = new Audio(audio.url);
       this.playingAudioId = audio.id;
 
-      this.currentAudio.addEventListener('ended', () => {
-        this.playingAudioId = null;
+      // 監聽音訊載入完成
+      this.currentAudio.addEventListener('loadedmetadata', () => {
+        this.audioDuration = this.currentAudio?.duration || 0;
       });
 
+      // 監聽播放進度
+      this.currentAudio.addEventListener('timeupdate', () => {
+        this.audioCurrentTime = this.currentAudio?.currentTime || 0;
+      });
+
+      // 監聽播放結束
+      this.currentAudio.addEventListener('ended', () => {
+        this.playingAudioId = null;
+        this.audioCurrentTime = 0;
+        this.audioDuration = 0;
+      });
+
+      // 監聽錯誤
       this.currentAudio.addEventListener('error', (error) => {
         console.error('音訊播放錯誤:', error);
         alert('音訊播放失敗');
         this.playingAudioId = null;
+        this.audioCurrentTime = 0;
+        this.audioDuration = 0;
       });
 
       this.currentAudio.play().then(() => {
@@ -202,10 +220,36 @@ export class ListAudiosComponent implements OnInit {
       this.currentAudio = null;
     }
     this.playingAudioId = null;
+    this.audioCurrentTime = 0;
+    this.audioDuration = 0;
   }
 
   isPlaying(audioId: number): boolean {
     return this.playingAudioId === audioId;
+  }
+
+  // 拖動進度條
+  onProgressChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const newTime = parseFloat(input.value);
+    if (this.currentAudio) {
+      this.currentAudio.currentTime = newTime;
+      this.audioCurrentTime = newTime;
+    }
+  }
+
+  // 獲取播放進度百分比
+  getProgressPercentage(): number {
+    if (this.audioDuration === 0) return 0;
+    return (this.audioCurrentTime / this.audioDuration) * 100;
+  }
+
+  // 格式化時間 (秒 -> mm:ss)
+  formatTime(seconds: number): string {
+    if (!seconds || isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
 
   copyToClipboard(text: string): void {
