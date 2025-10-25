@@ -87,7 +87,7 @@ export class VirtualSelectComponent implements OnInit, OnDestroy, OnChanges, Con
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.setDefaultTranslations();
-      this.cdr.detectChanges();
+      this.cdr.markForCheck(); // 使用 markForCheck 而非 detectChanges
     });
   }
 

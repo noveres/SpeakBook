@@ -4,6 +4,7 @@
   gap: 2rem;
   height: 100%;
   min-height: 600px;
+  overflow-x: auto; // 允許水平滾動
 }
 
 // 左側編輯區
@@ -11,19 +12,52 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0; // 允許縮小
+  overflow: hidden; // 防止內容溢出
 }
 
 .canvas-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-width: 0; // 允許縮小
 
   h3 {
     margin: 0;
     color: #2c3e50;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 600;
+    flex: 1; // 允許標題佔用可用空間
+    min-width: 0; // 允許縮小
   }
+}
+
+.editor-header {
+  display: flex;
+  flex-direction: column;
+  /* 垂直排列 */
+  align-items: flex-start;
+  /* 改為靠左 */
+  text-align: left;
+  /* 文字靠左 */
+  padding: 1rem 2rem;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ddd;
+}
+
+.editor-header h3 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.editor-header h4 {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .clear-button {
@@ -60,11 +94,12 @@
   gap: 0.75rem;
   max-height: 650px;
   overflow-y: auto;
+  overflow-x: auto; // 允許水平滾動
 }
 
 .canvas-area {
   position: relative;
-  width: 600px;  // 統一容器寬度
+  width: 600px; // 統一容器寬度
   height: 800px; // 統一容器高度 (3:4 比例)
   background: #f8f9fa;
   border-radius: 8px;
@@ -72,6 +107,7 @@
   cursor: crosshair;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin: 0 auto; // 置中顯示
+  touch-action: none; // 防止觸控時的預設行為（如滾動、縮放）
 
   img {
     width: 100%;
@@ -80,6 +116,7 @@
     display: block;
     -webkit-user-select: none;
     user-select: none;
+    pointer-events: none; // 防止圖片本身攔截觸控事件
   }
 }
 
@@ -89,6 +126,7 @@
   background: rgba(0, 87, 70, 0.2);
   cursor: pointer;
   transition: all 0.2s ease;
+  pointer-events: all;
 
   &:hover {
     background: rgba(0, 87, 70, 0.3);
@@ -104,6 +142,81 @@
   &.drawing {
     border-style: dashed;
     background: rgba(0, 143, 141, 0.15);
+  }
+
+  &.invalid {
+    border-color: #ff0000;
+    border-width: 3px;
+    background: rgba(255, 0, 0, 0.25);
+    animation: invalidPulse 1.5s ease-in-out infinite;
+  }
+
+  &.playing {
+    border-color: #3498db;
+    background: rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 16px rgba(52, 152, 219, 0.5);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .play-audio-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    opacity: 0;
+    z-index: 10;
+
+    svg {
+      color: #005746;
+      margin-left: 2px;
+    }
+
+    &:hover {
+      background: #005746;
+      transform: translate(-50%, -50%) scale(1.1);
+
+      svg {
+        color: white;
+      }
+    }
+  }
+
+  &:hover .play-audio-btn {
+    opacity: 1;
+  }
+
+  &.playing .play-audio-btn {
+    opacity: 1;
+    background: #3498db;
+
+    svg {
+      color: white;
+      margin-left: 0;
+    }
+  }
+}
+
+// 無效熱區閃爍動畫
+@keyframes invalidPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
   }
 }
 
@@ -175,7 +288,7 @@
   h3 {
     margin: 0;
     color: #2c3e50;
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     font-weight: 600;
     padding-bottom: 1rem;
     border-bottom: 2px solid #ecf0f1;
@@ -193,63 +306,67 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
+  flex-shrink: 0; // 防止被壓縮
+  min-height: 0; // 允許內容滾動
 }
 
-.hotspot-item {
-  padding: 1rem;
-  background: #f8f9fa;
+.hotspot-item-wrapper {
+  position: relative;
   border-radius: 8px;
-  border: 2px solid transparent;
-  cursor: pointer;
   transition: all 0.2s ease;
 
-  &:hover {
-    background: #e8f5f1;
-    border-color: #005746;
+  &.invalid {
+    border: 2px solid #ff0000;
+    background: #ffe6e6;
   }
 
-  &.active {
-    background: #e8f5f1;
-    border-color: #005746;
+  app-audio-card {
+    display: block;
+    cursor: pointer;
   }
 }
 
-.hotspot-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.hotspot-item-label {
+.warning-badge-overlay {
+  position: absolute;
+  top: 8px;
+  right: 48px;
+  padding: 0.2rem 0.5rem;
+  background: #ff0000;
+  color: white;
+  font-size: 0.7rem;
   font-weight: 600;
-  color: #2c3e50;
-  font-size: 0.95rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
 }
 
-.delete-button {
+.delete-button-overlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-radius: 4px;
   transition: all 0.2s ease;
   color: #7f8c8d;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background: #e74c3c;
     color: white;
   }
-}
 
-.hotspot-item-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.8rem;
-  color: #7f8c8d;
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 .no-hotspots {
@@ -273,6 +390,10 @@
 .hotspot-details {
   padding-top: 1rem;
   border-top: 2px solid #ecf0f1;
+  flex-shrink: 0; // 防止被壓縮
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .form-group {
@@ -303,6 +424,52 @@
   }
 }
 
+.audio-control-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+
+  app-virtual-select {
+    flex: 1;
+    min-width: 0; // 關鍵：允許 flex 子元素收縮，使省略號生效
+  }
+}
+
+.play-button {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: #005746;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 87, 70, 0.2);
+
+  &:hover {
+    background: #007352;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 87, 70, 0.3);
+  }
+
+  &.playing {
+    background: #e74c3c;
+    animation: pulse 1.5s ease-in-out infinite;
+
+    &:hover {
+      background: #c0392b;
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -328,15 +495,65 @@
 }
 
 @media (max-width: 768px) {
+  .editor-container {
+    display: block; // 改為 block 佈局
+    overflow-x: auto; // 允許水平滾動
+  }
+
+  .editor-canvas {
+    width: 100%; // 佔滿可視寬度
+    max-width: 100vw; // 不超過視窗寬度
+    padding: 0 1rem; // 添加左右內距
+    box-sizing: border-box;
+  }
+
   .canvas-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+
+    h3 {
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+      width: 100%;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      line-height: 1.5; // 增加行高，讓換行更美觀
+    }
   }
 
   .clear-button {
     width: 100%;
     justify-content: center;
+  }
+
+  .canvas-wrapper {
+    width: 100%;
+    overflow-x: auto; // 允許水平滾動
+  }
+
+  .editor-panel {
+    width: 100%;
+    max-width: 100vw;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-top: 1rem;
+  }
+
+  // .canvas-area {
+  //   width: 100%;
+  //   max-width: 100%;
+  //   height: auto;
+  //   aspect-ratio: 3 / 4; // 保持 3:4 比例
+  // }
+
+  .hotspot {
+    // 增加觸控區域的最小尺寸，方便點擊
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .form-row {

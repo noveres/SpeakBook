@@ -18,7 +18,7 @@
         </div>
         <div class="step-actions">
             <button mat-button matStepperPrevious>上一步</button>
-            <button mat-raised-button color="primary" matStepperNext>
+            <button mat-raised-button color="primary" (click)="validateHotspots() && stepper.next()">
                 下一步
             </button>
         </div>

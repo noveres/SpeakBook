@@ -2,7 +2,10 @@
     <!-- 左側：圖片編輯區 -->
     <div class="editor-canvas">
         <div class="canvas-header">
-            <h3>圖片編輯區</h3>
+            <div class="editor-header">
+                <h3>圖片編輯區</h3>
+                <h4>當前版本手機版體驗不佳，請改用電腦或平板 DEMO</h4>
+            </div>
             <button class="clear-button" (click)="clearAllHotspots()" [disabled]="hotspots.length === 0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -15,15 +18,32 @@
 
         <div class="canvas-wrapper" *ngIf="selectedImage">
             <div class="canvas-area" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)"
-                (mouseup)="onMouseUp()" (mouseleave)="onMouseUp()">
+                (mouseup)="onMouseUp()" (mouseleave)="onMouseUp()" (touchstart)="onTouchStart($event)"
+                (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)" (touchcancel)="onTouchEnd($event)">
                 <img [src]="selectedImage.url" [alt]="selectedImage.name" (load)="onImageLoad($event)" />
 
                 <!-- 已保存的熱區 -->
                 <div *ngFor="let hotspot of hotspots" class="hotspot"
-                    [class.selected]="selectedHotspot?.id === hotspot.id" [style.left.px]="hotspot.x"
-                    [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
+                    [class.selected]="selectedHotspot?.id === hotspot.id" [class.invalid]="hotspot.isInvalid"
+                    [class.playing]="isPlaying(hotspot.id)" [style.left.px]="hotspot.x" [style.top.px]="hotspot.y"
+                    [style.width.px]="hotspot.width" [style.height.px]="hotspot.height"
                     (click)="selectHotspot(hotspot)">
                     <span class="hotspot-label">{{ hotspot.label }}</span>
+                    <button class="play-audio-btn" *ngIf="hotspot.audioUrl"
+                        (click)="playAudio(hotspot); $event.stopPropagation()"
+                        [title]="isPlaying(hotspot.id) ? '停止播放' : '播放音訊'">
+                        <!-- 播放圖標 -->
+                        <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <!-- 暫停圖標 -->
+                        <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
                 </div>
 
                 <!-- 正在繪製的熱區 -->
@@ -40,7 +60,7 @@
                     <line x1="12" y1="16" x2="12" y2="12"></line>
                     <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
-                <span>在圖片上拖曳滑鼠以創建熱區</span>
+                <span>在圖片上拖曳以創建熱區</span>
             </div>
         </div>
 
@@ -60,22 +80,24 @@
         <h3>熱區設定</h3>
 
         <div class="hotspot-list" *ngIf="hotspots.length > 0">
-            <div *ngFor="let hotspot of hotspots" class="hotspot-item"
-                [class.active]="selectedHotspot?.id === hotspot.id" (click)="selectHotspot(hotspot)">
-                <div class="hotspot-item-header">
-                    <span class="hotspot-item-label">{{ hotspot.label }}</span>
-                    <button class="delete-button" (click)="deleteHotspot(hotspot); $event.stopPropagation()" title="刪除">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="hotspot-item-info">
-                    <span>位置: ({{ hotspot.x | number:'1.0-0' }}, {{ hotspot.y | number:'1.0-0' }})</span>
-                    <span>大小: {{ hotspot.width | number:'1.0-0' }} × {{ hotspot.height | number:'1.0-0' }}</span>
-                </div>
+            <div *ngFor="let hotspot of hotspots; let i = index" class="hotspot-item-wrapper"
+                [class.invalid]="hotspot.isInvalid">
+                <app-audio-card [data]="toAudioCardData(hotspot)" [index]="i"
+                    [isActive]="selectedHotspot?.id === hotspot.id" [useExternalPlayback]="true"
+                    [externalIsPlaying]="isPlaying(hotspot.id)"
+                    [externalAudioCurrentTime]="isPlaying(hotspot.id) ? audioCurrentTime : 0"
+                    [externalAudioDuration]="isPlaying(hotspot.id) ? audioDuration : 0" (click)="selectHotspot(hotspot)"
+                    (playToggle)="playAudio(hotspot)">
+                </app-audio-card>
+                <span *ngIf="hotspot.isInvalid" class="warning-badge-overlay">未選擇音訊</span>
+                <button class="delete-button-overlay" (click)="deleteHotspot(hotspot); $event.stopPropagation()"
+                    title="刪除">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -98,21 +120,28 @@
             </div>
             <div class="form-group">
                 <label>音訊檔案</label>
-                <app-virtual-select 
-                    [options]="audioOptions" 
-                    [(ngModel)]="selectedAudioId"
-                    (selectionChange)="onAudioChange($event)"
-                    (loadMore)="loadAudioPage($event)"
-                    [placeholder]="'選擇音訊檔案'"
-                    [searchPlaceholder]="'搜尋音訊...'"
-                    [searchable]="true"
-                    [enablePagination]="true"
-                    [loading]="audioLoading"
-                    [hasMore]="audioHasMore"
-                    [totalPageCount]="audioTotalPages"
-                    [pageSize]="20"
-                    [autoSearchEnabled]="false">
-                </app-virtual-select>
+                <div class="audio-control-group">
+                    <app-virtual-select [options]="audioOptions" [(ngModel)]="selectedAudioId"
+                        (selectionChange)="onAudioChange($event)" (loadMore)="loadAudioPage($event)"
+                        [placeholder]="'選擇音訊檔案'" [searchPlaceholder]="'搜尋音訊...'" [searchable]="true"
+                        [enablePagination]="true" [loading]="audioLoading" [hasMore]="audioHasMore"
+                        [totalPageCount]="audioTotalPages" [pageSize]="20" [autoSearchEnabled]="false">
+                    </app-virtual-select>
+                    <button *ngIf="selectedHotspot.audioUrl" class="play-button" (click)="playAudio(selectedHotspot)"
+                        [class.playing]="isPlaying(selectedHotspot.id)" type="button" title="播放音訊">
+                        <svg *ngIf="!isPlaying(selectedHotspot.id)" xmlns="http://www.w3.org/2000/svg" width="20"
+                            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg *ngIf="isPlaying(selectedHotspot.id)" xmlns="http://www.w3.org/2000/svg" width="20"
+                            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="form-row">

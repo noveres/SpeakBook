@@ -1,6 +1,6 @@
 {
   "COMMON": {
-    "SYSTEM_NAME": "指尖觸控有聲教材管理系統",
+    "SYSTEM_NAME": "指尖觸控有聲管理系統",
     "CLOSE": "關閉",
     "OPEN": "開啟",
     "YES": "是",
@@ -116,7 +116,7 @@
     "FEATURES": {
       "HOTSPOT_EDITOR": {
         "TITLE": "教材熱區編輯器",
-        "DESCRIPTION": "上傳繪本頁面，使用 Canvas 或觸控直接標註矩形、多邊形熱區，綁定音效或文字朗讀。"
+        "DESCRIPTION": "上傳繪本頁面，使用 Canvas 直接標註矩形、多邊形熱區，綁定音效或文字朗讀。"
       },
       "FINGER_DETECTION": {
         "TITLE": "精準手指偵測",
@@ -140,7 +140,7 @@
       },
       "READING": {
         "TITLE": "多感官學習",
-        "DESCRIPTION": "結合視覺與聽覺，學生只需『指一指』或『點一下』，即可觸發音效與語音朗讀，提升專注與理解力。"
+        "DESCRIPTION": "結合觸覺與聽覺，學生只需『指一指』或『點一下』，即可觸發音效與語音朗讀，提升專注與理解力。"
       },
       "INTERNATIONAL": {
         "TITLE": "跨平台與可擴充架構",

@@ -26,24 +26,24 @@
         </div>
 
         <!-- 播放進度條 -->
-        <div class="audio-progress" *ngIf="isPlaying">
-            <span class="time-current">{{ formatTime(audioCurrentTime) }}</span>
-            <input type="range" class="progress-bar" [value]="audioCurrentTime" [max]="audioDuration"
-                (input)="onProgressChange($event)" step="0.1">
-            <span class="time-total">{{ formatTime(audioDuration) }}</span>
+        <div class="audio-progress" *ngIf="currentIsPlaying">
+            <span class="time-current">{{ formatTime(currentAudioTime) }}</span>
+            <input type="range" class="progress-bar" [value]="currentAudioTime" [max]="currentDuration"
+                (input)="onProgressChange($event)" step="0.1" [disabled]="useExternalPlayback">
+            <span class="time-total">{{ formatTime(currentDuration) }}</span>
         </div>
     </div>
 
     <!-- 播放按鈕 -->
-    <button class="play-button" *ngIf="data.audioUrl" [class.playing]="isPlaying" (click)="togglePlay()"
-        [title]="isPlaying ? '停止播放' : '播放音訊'">
+    <button class="play-button" *ngIf="data.audioUrl" [class.playing]="currentIsPlaying" (click)="togglePlay(); $event.stopPropagation()"
+        [title]="currentIsPlaying ? '停止播放' : '播放音訊'">
         <!-- 播放圖標 -->
-        <svg *ngIf="!isPlaying" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+        <svg *ngIf="!currentIsPlaying" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
             fill="currentColor">
             <polygon points="5 3 19 12 5 21 5 3"></polygon>
         </svg>
         <!-- 暫停圖標 -->
-        <svg *ngIf="isPlaying" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+        <svg *ngIf="currentIsPlaying" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
             fill="currentColor">
             <rect x="6" y="4" width="4" height="16"></rect>
             <rect x="14" y="4" width="4" height="16"></rect>

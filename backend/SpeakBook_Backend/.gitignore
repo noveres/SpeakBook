@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+/SpeakBook_Backend/src/main/resources/static/
+

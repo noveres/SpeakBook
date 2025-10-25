@@ -1,9 +1,10 @@
 <div class="page-login">
     <div class="login-box">
         <div class="login-content">
-            <!-- Logo placeholder -->
+            <!-- Logo -->
             <div class="logo">
-                <div class="logo-placeholder">LOGO</div>
+                <img src="/favicon.ico" alt="系統圖示" class="logo-icon" />
+                <h1 class="logo-text">指尖觸控有聲管理系統</h1>
             </div>
 
             <!-- Error message -->
@@ -56,6 +57,19 @@
                     <span *ngIf="isLoading">登入中...</span>
                 </button>
             </form>
+
+            <!-- Test account info -->
+            <div class="test-account-info">
+                <div class="test-account-title">測試帳號</div>
+                <div class="test-account-item">
+                    <span class="label">帳號：</span>
+                    <span class="value">admin</span>
+                </div>
+                <div class="test-account-item">
+                    <span class="label">密碼：</span>
+                    <span class="value">admin</span>
+                </div>
+            </div>
 
             <!-- Footer links -->
             <!-- <div class="footer-links">

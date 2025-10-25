@@ -9,9 +9,30 @@
                 <img [src]="uploadedImage.url" [alt]="uploadedImage.name" />
 
                 <!-- 熱區預覽 -->
-                <div *ngFor="let hotspot of hotspots" class="preview-hotspot" [style.left.px]="hotspot.x"
-                    [style.top.px]="hotspot.y" [style.width.px]="hotspot.width" [style.height.px]="hotspot.height">
+                <div *ngFor="let hotspot of hotspots" class="preview-hotspot" 
+                    [class.selected]="selectedHotspot?.id === hotspot.id"
+                    [class.playing]="isPlaying(hotspot.id)"
+                    [style.left.px]="hotspot.x"
+                    [style.top.px]="hotspot.y" 
+                    [style.width.px]="hotspot.width" 
+                    [style.height.px]="hotspot.height"
+                    (click)="selectHotspot(hotspot)">
                     <span class="hotspot-label">{{ hotspot.label }}</span>
+                    <button class="play-audio-btn" *ngIf="hotspot.audioUrl"
+                        (click)="playAudio(hotspot); $event.stopPropagation()"
+                        [title]="isPlaying(hotspot.id) ? '停止播放' : '播放音訊'">
+                        <!-- 播放圖標 -->
+                        <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <!-- 暫停圖標 -->
+                        <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
@@ -51,8 +72,16 @@
         <div class="hotspots-summary" *ngIf="hotspots.length > 0">
             <h4>熱區列表</h4>
             <div class="hotspot-list">
-                <app-audio-card *ngFor="let hotspot of hotspots; let i = index" [data]="toAudioCardData(hotspot)"
-                    [index]="i">
+                <app-audio-card *ngFor="let hotspot of hotspots; let i = index" 
+                    [data]="toAudioCardData(hotspot)"
+                    [index]="i"
+                    [isActive]="selectedHotspot?.id === hotspot.id"
+                    [useExternalPlayback]="true"
+                    [externalIsPlaying]="isPlaying(hotspot.id)"
+                    [externalAudioCurrentTime]="isPlaying(hotspot.id) ? audioCurrentTime : 0"
+                    [externalAudioDuration]="isPlaying(hotspot.id) ? audioDuration : 0"
+                    (click)="selectHotspot(hotspot)"
+                    (playToggle)="playAudio(hotspot)">
                 </app-audio-card>
             </div>
         </div>

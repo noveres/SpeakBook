@@ -93,6 +93,31 @@ export class EditComponent implements OnInit {
     }
   }
 
+  // 驗證熱區是否都選擇了音訊
+  validateHotspots(): boolean {
+    if (!this.imageEditor || this.imageEditor.hotspots.length === 0) {
+      alert('請至少創建一個熱區！');
+      return false;
+    }
+
+    const hotspotsWithoutAudio = this.imageEditor.hotspots.filter(
+      hotspot => !hotspot.audioId && !hotspot.audioUrl
+    );
+
+    if (hotspotsWithoutAudio.length > 0) {
+      // 標記未選擇音訊的熱區
+      this.imageEditor.markInvalidHotspots(hotspotsWithoutAudio);
+      
+      const labels = hotspotsWithoutAudio.map(h => h.label).join('、');
+      alert(`以下熱區尚未選擇音訊：${labels}\n\n請為所有熱區選擇音訊後再繼續。`);
+      return false;
+    }
+
+    // 清除所有標記
+    this.imageEditor.clearInvalidMarks();
+    return true;
+  }
+
   onPublish(): void {
     console.log('正在發布教材，請稍候...');
 

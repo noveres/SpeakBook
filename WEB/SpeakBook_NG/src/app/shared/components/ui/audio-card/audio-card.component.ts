@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface AudioCardData {
@@ -20,18 +20,52 @@ export class AudioCardComponent implements OnDestroy {
   @Input() data!: AudioCardData;
   @Input() index?: number;
   @Input() isActive: boolean = false;
+  
+  // 外部播放狀態控制
+  @Input() externalIsPlaying: boolean = false;
+  @Input() externalAudioCurrentTime: number = 0;
+  @Input() externalAudioDuration: number = 0;
+  @Input() useExternalPlayback: boolean = false; // 是否使用外部播放控制
+  
+  // 播放切換事件
+  @Output() playToggle = new EventEmitter<void>();
 
   // 播放相關
   private currentAudio: HTMLAudioElement | null = null;
   isPlaying: boolean = false;
   audioCurrentTime: number = 0;
   audioDuration: number = 0;
+  private isLoading: boolean = false; // 防止連點
+  
+  // 獲取當前播放狀態（優先使用外部狀態）
+  get currentIsPlaying(): boolean {
+    return this.useExternalPlayback ? this.externalIsPlaying : this.isPlaying;
+  }
+  
+  get currentAudioTime(): number {
+    return this.useExternalPlayback ? this.externalAudioCurrentTime : this.audioCurrentTime;
+  }
+  
+  get currentDuration(): number {
+    return this.useExternalPlayback ? this.externalAudioDuration : this.audioDuration;
+  }
 
   ngOnDestroy(): void {
     this.stopAudio();
   }
 
   togglePlay(): void {
+    // 如果使用外部播放控制，發出事件讓父組件處理
+    if (this.useExternalPlayback) {
+      this.playToggle.emit();
+      return;
+    }
+    
+    // 防止連點
+    if (this.isLoading) {
+      return;
+    }
+    
     if (this.isPlaying) {
       this.stopAudio();
     } else {
@@ -41,6 +75,11 @@ export class AudioCardComponent implements OnDestroy {
 
   playAudio(): void {
     if (!this.data.audioUrl) return;
+    
+    // 防止連點
+    if (this.isLoading) return;
+    
+    this.isLoading = true;
 
     try {
       this.currentAudio = new Audio(this.data.audioUrl);
@@ -49,6 +88,7 @@ export class AudioCardComponent implements OnDestroy {
       // 監聽音訊載入完成
       this.currentAudio.addEventListener('loadedmetadata', () => {
         this.audioDuration = this.currentAudio?.duration || 0;
+        this.isLoading = false; // 載入完成，解除鎖定
       });
 
       // 監聽播放進度
@@ -61,6 +101,7 @@ export class AudioCardComponent implements OnDestroy {
         this.isPlaying = false;
         this.audioCurrentTime = 0;
         this.audioDuration = 0;
+        this.isLoading = false; // 播放結束，解除鎖定
       });
 
       // 監聽錯誤
@@ -69,15 +110,18 @@ export class AudioCardComponent implements OnDestroy {
         this.isPlaying = false;
         this.audioCurrentTime = 0;
         this.audioDuration = 0;
+        this.isLoading = false; // 錯誤時，解除鎖定
       });
 
       this.currentAudio.play().catch((error) => {
         console.error('播放失敗:', error);
         this.isPlaying = false;
+        this.isLoading = false; // 播放失敗，解除鎖定
       });
     } catch (error) {
       console.error('創建音訊對象失敗:', error);
       this.isPlaying = false;
+      this.isLoading = false; // 異常時，解除鎖定
     }
   }
 
@@ -90,6 +134,7 @@ export class AudioCardComponent implements OnDestroy {
     this.isPlaying = false;
     this.audioCurrentTime = 0;
     this.audioDuration = 0;
+    this.isLoading = false; // 停止時，解除鎖定
   }
 
   // 拖動進度條
