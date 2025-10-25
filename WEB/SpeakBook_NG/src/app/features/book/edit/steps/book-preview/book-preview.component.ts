@@ -4,10 +4,11 @@ import { UploadedImage } from '../upload-image/upload-image.component';
 import { Hotspot } from '../image-editor/image-editor.component';
 import { BookSettings } from '../book-settings/book-settings.component';
 import { getAudioNameByUrl } from '@core/constants/audio-data';
+import { AudioCardComponent, AudioCardData } from '@shared/components/ui';
 
 @Component({
   selector: 'app-book-preview',
-  imports: [CommonModule],
+  imports: [CommonModule, AudioCardComponent],
   templateUrl: './book-preview.component.html',
   styleUrl: './book-preview.component.scss'
 })
@@ -74,5 +75,16 @@ export class BookPreviewComponent {
   getAudioName(audioUrl: string): string {
     // 使用共享的函數獲取音訊名稱
     return getAudioNameByUrl(audioUrl);
+  }
+
+  // 轉換 Hotspot 為 AudioCardData
+  toAudioCardData(hotspot: Hotspot): AudioCardData {
+    return {
+      id: hotspot.id,
+      label: hotspot.label,
+      audioUrl: hotspot.audioUrl || '',
+      position: { x: hotspot.x, y: hotspot.y },
+      size: { width: hotspot.width, height: hotspot.height }
+    };
   }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BookQueryService } from '../service/book-query.service';
 import { BookResponse, HotspotResponse } from '../service/book-edit.service';
 import { getAudioNameByUrl } from '@core/constants/audio-data';
+import { AudioCardComponent, AudioCardData } from '@shared/components/ui';
 
 // 使用後端返回的類型
 type Hotspot = HotspotResponse;
@@ -12,7 +13,7 @@ type Book = BookResponse;
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AudioCardComponent],
   templateUrl: './book-detail.component.html',
   styleUrl: './book-detail.component.scss'
 })
@@ -170,5 +171,16 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   getAudioName(audioUrl: string): string {
     // 使用共享的函數獲取音訊名稱
     return getAudioNameByUrl(audioUrl);
+  }
+
+  // 轉換 Hotspot 為 AudioCardData
+  toAudioCardData(hotspot: Hotspot, index?: number): AudioCardData {
+    return {
+      id: hotspot.id,
+      label: hotspot.label,
+      audioUrl: hotspot.audioUrl || '',
+      position: { x: hotspot.x, y: hotspot.y },
+      size: { width: hotspot.width, height: hotspot.height }
+    };
   }
 }

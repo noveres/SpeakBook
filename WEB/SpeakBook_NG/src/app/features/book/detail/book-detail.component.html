@@ -33,16 +33,16 @@
                         [class.playing]="isPlaying(hotspot.id)">
                         <span class="hotspot-label">{{ hotspot.label }}</span>
                         <button class="play-audio-btn" *ngIf="hotspot.audioUrl"
-                            (click)="playAudio(hotspot); $event.stopPropagation()" 
+                            (click)="playAudio(hotspot); $event.stopPropagation()"
                             [title]="isPlaying(hotspot.id) ? '停止播放' : '播放音訊'">
                             <!-- 播放圖標 -->
-                            <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="currentColor">
+                            <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
                             </svg>
                             <!-- 暫停圖標 -->
-                            <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="currentColor">
+                            <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 24 24" fill="currentColor">
                                 <rect x="6" y="4" width="4" height="16"></rect>
                                 <rect x="14" y="4" width="4" height="16"></rect>
                             </svg>
@@ -76,40 +76,9 @@
             <div class="hotspots-summary" *ngIf="hotspots.length > 0">
                 <h4>熱區列表</h4>
                 <div class="hotspot-list">
-                    <div *ngFor="let hotspot of hotspots; let i = index" class="hotspot-summary-item"
-                        [class.active]="selectedHotspot?.id === hotspot.id" (click)="selectHotspot(hotspot)">
-                        <div class="hotspot-number">{{ i + 1 }}</div>
-                        <div class="hotspot-details">
-                            <strong>{{ hotspot.label }}</strong>
-                            <span class="hotspot-info">位置: ({{ hotspot.x }}, {{ hotspot.y }}) | 大小: {{ hotspot.width
-                                }} × {{ hotspot.height }}</span>
-                            <span class="hotspot-audio" *ngIf="hotspot.audioUrl">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                                </svg>
-                                音訊: {{ getAudioName(hotspot.audioUrl) }}
-                            </span>
-                        </div>
-                        <button class="play-btn-inline" *ngIf="hotspot.audioUrl"
-                            [class.playing]="isPlaying(hotspot.id)"
-                            (click)="playAudio(hotspot); $event.stopPropagation()" 
-                            [title]="isPlaying(hotspot.id) ? '停止播放' : '播放音訊'">
-                            <!-- 播放圖標 -->
-                            <svg *ngIf="!isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                            <!-- 暫停圖標 -->
-                            <svg *ngIf="isPlaying(hotspot.id)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <rect x="6" y="4" width="4" height="16"></rect>
-                                <rect x="14" y="4" width="4" height="16"></rect>
-                            </svg>
-                        </button>
-                    </div>
+                    <app-audio-card *ngFor="let hotspot of hotspots; let i = index" [data]="toAudioCardData(hotspot)"
+                        [index]="i" [isActive]="selectedHotspot?.id === hotspot.id" (click)="selectHotspot(hotspot)">
+                    </app-audio-card>
                 </div>
             </div>
         </div>
@@ -141,10 +110,10 @@
                         <span class="difficulty-badge" [class]="'difficulty-' + book.difficulty">{{
                             book.difficulty || '未設定' }}</span>
                     </div>
-                    <div class="info-item">
+                    <!-- <div class="info-item">
                         <label>頁數</label>
                         <span>{{ book.pages || 0 }} 頁</span>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="info-row">

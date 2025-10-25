@@ -102,10 +102,16 @@
                     [options]="audioOptions" 
                     [(ngModel)]="selectedAudioId"
                     (selectionChange)="onAudioChange($event)"
+                    (loadMore)="loadAudioPage($event)"
                     [placeholder]="'選擇音訊檔案'"
                     [searchPlaceholder]="'搜尋音訊...'"
                     [searchable]="true"
-                    [enablePagination]="false">
+                    [enablePagination]="true"
+                    [loading]="audioLoading"
+                    [hasMore]="audioHasMore"
+                    [totalPageCount]="audioTotalPages"
+                    [pageSize]="20"
+                    [autoSearchEnabled]="false">
                 </app-virtual-select>
             </div>
 

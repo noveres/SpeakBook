@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UploadedImage } from '../upload-image/upload-image.component';
 import { VirtualSelectComponent, SelectOption } from '@shared/components/ui';
-import { AUDIO_DATA } from '@core/constants/audio-data';
+import { AudioService } from '@features/audio/service/audio.service';
+import { PageRequest } from '@core/models';
 
 export interface Hotspot {
   id: string;
@@ -22,7 +23,7 @@ export interface Hotspot {
   templateUrl: './image-editor.component.html',
   styleUrl: './image-editor.component.scss'
 })
-export class ImageEditorComponent implements OnChanges {
+export class ImageEditorComponent implements OnChanges, OnInit {
   @Input() selectedImage: UploadedImage | null = null;
 
   hotspots: Hotspot[] = [];
@@ -38,6 +39,19 @@ export class ImageEditorComponent implements OnChanges {
   // 音訊選項
   audioOptions: SelectOption[] = [];
   selectedAudioId: string | null = null;
+  
+  // 分頁相關
+  audioLoading: boolean = false;
+  audioTotalPages: number = 0;
+  audioHasMore: boolean = true;
+  currentAudioPage: number = 1;
+  currentSearchTerm: string = '';
+
+  constructor(private audioService: AudioService) {}
+
+  ngOnInit(): void {
+    // 不在初始化時載入,等待用戶打開下拉選單
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedImage'] && this.selectedImage) {
@@ -45,20 +59,55 @@ export class ImageEditorComponent implements OnChanges {
       this.hotspots = [];
       this.selectedHotspot = null;
       this.currentHotspot = null;
-      this.loadAudioOptions();
     }
   }
 
+  // 載入音訊選項 (支援分頁和搜尋)
+  loadAudioPage(event: {page: number, pageSize: number, searchTerm: string}): void {
+    this.audioLoading = true;
+    this.currentAudioPage = event.page + 1; // VirtualSelect 從 0 開始,API 從 1 開始
+    this.currentSearchTerm = event.searchTerm;
+
+    const pageRequest: PageRequest = {
+      page: this.currentAudioPage,
+      pageSize: event.pageSize,
+      sortBy: 'createdAt,desc'
+    };
+
+    this.audioService.getAudios(pageRequest, event.searchTerm).subscribe({
+      next: (response) => {
+        const newOptions = response.content.map(audio => ({
+          id: audio.id.toString(),
+          name: audio.name,
+          url: audio.url,
+          duration: audio.duration,
+          category: audio.category
+        }));
+
+        // 如果是第一頁或搜尋,替換選項;否則追加
+        if (event.page === 0) {
+          this.audioOptions = newOptions;
+        } else {
+          this.audioOptions = [...this.audioOptions, ...newOptions];
+        }
+
+        this.audioTotalPages = response.totalPages;
+        this.audioHasMore = this.currentAudioPage < response.totalPages;
+        this.audioLoading = false;
+
+        console.log(`載入音訊第 ${this.currentAudioPage} 頁:`, newOptions.length, '個音訊');
+      },
+      error: (error) => {
+        console.error('載入音訊選項失敗:', error);
+        this.audioLoading = false;
+        this.audioHasMore = false;
+      }
+    });
+  }
+
+  // 保留舊方法以便向後兼容
   loadAudioOptions(): void {
-    // 使用共享的音訊數據
-    // 實際項目中應該調用 audioService.getAudioList()
-    this.audioOptions = AUDIO_DATA.map(audio => ({
-      id: audio.id,
-      name: audio.name,
-      url: audio.url,
-      duration: audio.duration,
-      category: audio.category
-    }));
+    this.loadAudioPage({ page: 0, pageSize: 20, searchTerm: '' });
   }
 
   onImageLoad(event: Event): void {

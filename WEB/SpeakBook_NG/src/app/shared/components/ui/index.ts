@@ -8,5 +8,6 @@ export * from './loading-spinner/loading-spinner.component';
 export * from './search-box/search-box.component';
 export * from './pagination/pagination.component';
 export * from './virtual-select/virtual-select.component';
+export * from './audio-card/audio-card.component';
 
 // 型別與介面匯出

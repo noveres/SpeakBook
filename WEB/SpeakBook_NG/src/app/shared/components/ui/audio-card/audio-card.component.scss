@@ -1,0 +1,228 @@
+.audio-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #005746;
+    box-shadow: 0 2px 8px rgba(0, 87, 70, 0.1);
+  }
+
+  &.active {
+    border-color: #005746;
+    background: #f0f9f7;
+  }
+
+  &.playing {
+    border-color: #005746;
+    background: #e6f4f1;
+  }
+}
+
+.card-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #005746;
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.card-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-label {
+  color: #2c3e50;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+}
+
+.audio-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+
+  svg {
+    flex-shrink: 0;
+    color: #005746;
+  }
+
+  .audio-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// 播放進度條
+.audio-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-top: 0.25rem;
+
+  .time-current,
+  .time-total {
+    color: #7f8c8d;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #005746;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: -4px; // 讓滑塊垂直居中 (14px - 6px) / 2 = 4px
+
+      &:hover {
+        background: #004435;
+        transform: scale(1.2);
+      }
+    }
+
+    &::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: #005746;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #004435;
+        transform: scale(1.2);
+      }
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+    }
+
+    &::-moz-range-track {
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+    }
+
+    &::-moz-range-progress {
+      height: 6px;
+      background: #005746;
+      border-radius: 3px;
+    }
+  }
+}
+
+.play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #005746;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #004435;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.playing {
+    background: #e74c3c;
+
+    &:hover {
+      background: #c0392b;
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// 響應式設計
+@media (max-width: 768px) {
+  .audio-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-number {
+    align-self: flex-start;
+  }
+
+  .play-button {
+    align-self: flex-end;
+  }
+}
