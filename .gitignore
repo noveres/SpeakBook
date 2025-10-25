@@ -46,6 +46,10 @@ target/
 build/
 out/
 
+/dist/
+ /backend/SpeakBook_Backend/src/main/resources/static/
+
+
 # 設定與暫存
 *.log
 *.class
@@ -65,11 +69,13 @@ out/
 .DS_Store
 Thumbs.db
 
-# Java 環境檔案（可選）
+# Java 環境檔案
 application.properties
 application.yml
 application-*.properties
 application-*.yml
+/SpeakBook_Backend/src/main/resources/static/
+
 
 # =====================================
 # 共用 / 系統層級
