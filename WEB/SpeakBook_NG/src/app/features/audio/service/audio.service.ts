@@ -32,6 +32,7 @@ export interface ApiResponse<T> {
 export class AudioService {
   private apiUrl = `${environment.apiBaseUrl}/api/audios`;
   private uploadApiUrl = `${environment.apiBaseUrl}/api/upload/audio`;
+  private uploadAndSaveApiUrl = `${environment.apiBaseUrl}/api/audios/upload`;
 
   constructor(private http: HttpClient) { }
 
@@ -43,14 +44,14 @@ export class AudioService {
   getAudios(pageRequest: PageRequest, searchKeyword?: string): Observable<PageResponse<AudioResponse>> {
     let params = new HttpParams()
       .set('page', pageRequest.page.toString())
-      .set('size', pageRequest.size.toString());
+      .set('size', pageRequest.pageSize.toString());
 
     if (searchKeyword && searchKeyword.trim()) {
       params = params.set('keyword', searchKeyword.trim());
     }
 
-    if (pageRequest.sort) {
-      params = params.set('sort', pageRequest.sort);
+    if (pageRequest.sortBy) {
+      params = params.set('sort', pageRequest.sortBy);
     }
 
     return this.http.get<ApiResponse<PageResponse<AudioResponse>>>(this.apiUrl, { params })
@@ -81,7 +82,7 @@ export class AudioService {
   }
 
   /**
-   * 上傳音訊檔案
+   * 上傳音訊檔案（僅上傳到 Catbox，不保存到數據庫）
    * @param file 音訊檔案
    */
   uploadAudio(file: File): Observable<AudioResponse> {
@@ -89,6 +90,35 @@ export class AudioService {
     formData.append('file', file);
 
     return this.http.post<ApiResponse<AudioResponse>>(this.uploadApiUrl, formData)
+      .pipe(
+        map(response => {
+          if (!response.success || !response.data) {
+            throw new Error(response.message || '上傳音訊失敗');
+          }
+          return response.data;
+        })
+      );
+  }
+
+  /**
+   * 上傳音訊並保存到數據庫
+   * @param file 音訊檔案
+   * @param name 音訊名稱（可選，默認使用檔案名）
+   * @param category 音訊分類（可選）
+   */
+  uploadAndSaveAudio(file: File, name?: string, category?: string): Observable<AudioResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    if (name) {
+      formData.append('name', name);
+    }
+    
+    if (category) {
+      formData.append('category', category);
+    }
+
+    return this.http.post<ApiResponse<AudioResponse>>(this.uploadAndSaveApiUrl, formData)
       .pipe(
         map(response => {
           if (!response.success || !response.data) {

@@ -44,6 +44,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/book/page/edit/edit.component').then(m => m.EditComponent),
     canActivate: [AuthGuard]
   },
+  // 音訊管理頁面
+  {
+    path: 'audio',
+    loadComponent: () => import('./features/audio/list-audios/list-audios.component').then(m => m.ListAudiosComponent),
+    canActivate: [AuthGuard]
+  },
 
   // 預設路由
   { path: '', redirectTo: 'home', pathMatch: 'full' },

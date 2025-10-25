@@ -49,8 +49,8 @@ export class ListAudiosComponent implements OnInit {
     this.isLoading = true;
     const pageRequest: PageRequest = {
       page: this.currentPage,
-      size: this.pageSize,
-      sort: 'uploadedAt,desc'
+      pageSize: this.pageSize,
+      sortBy: 'uploadedAt,desc'
     };
 
     this.audioService.getAudios(pageRequest, this.searchKeyword).subscribe({
@@ -214,7 +214,7 @@ export class ListAudiosComponent implements OnInit {
   }
 
   get hasAudios(): boolean {
-    return this.audios.length > 0;
+    return this.audios && this.audios.length > 0;
   }
 
   get hasPrevPage(): boolean {
