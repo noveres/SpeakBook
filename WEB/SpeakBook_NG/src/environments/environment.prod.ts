@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  apiBaseUrl: '', // 生產環境使用相對路徑，自動適應部署的域名
   api: {
     Account: {
       Login: {

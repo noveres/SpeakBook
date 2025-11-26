@@ -9,7 +9,7 @@ import { AvatarService } from './avatar.service';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:9527/api/users';
+  private apiUrl = `${environment.apiBaseUrl}/api/users`;
 
   constructor(
     private http: HttpClient,

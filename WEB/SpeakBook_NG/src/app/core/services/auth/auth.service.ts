@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { tap, finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:9527/api/auth'; // 後端 API 地址
+  private apiUrl = `${environment.apiBaseUrl}/api/auth`;
   private keepLoggedInSubject = new BehaviorSubject<boolean>(false);
   keepLoggedIn$ = this.keepLoggedInSubject.asObservable();
 

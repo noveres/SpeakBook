@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   currentVersion: "0.13.13",
   successAlertTimeout: 1.5,
-  apiBaseUrl: 'http://localhost:9527',
+  apiBaseUrl: '', // 使用相對路徑，配合 proxy.conf.json 自動轉發
   api: {
     Account: {
       Login: {

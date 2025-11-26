@@ -105,6 +105,7 @@ export class ListAudiosComponent implements OnInit {
       // 驗證檔案類型
       if (!file.type.startsWith('audio/')) {
         alert('請選擇音訊檔案');
+        input.value = ''; // 重置輸入框
         return;
       }
 
@@ -112,11 +113,13 @@ export class ListAudiosComponent implements OnInit {
       const maxSize = 10 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('檔案大小不能超過 10MB');
+        input.value = ''; // 重置輸入框
         return;
       }
 
       this.selectedFile = file;
       this.uploadAudio();
+      input.value = ''; // 上傳後立即重置輸入框,允許重新選擇相同檔案
     }
   }
 
